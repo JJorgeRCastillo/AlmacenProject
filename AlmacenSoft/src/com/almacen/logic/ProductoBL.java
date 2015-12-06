@@ -14,7 +14,7 @@ import java.util.List;
  * @author JOSEPH
  */
 public class ProductoBL {
-     public static ProductoBL instance = null;
+     private static ProductoBL instance = null;
 
     private ProductoBL() {
     }

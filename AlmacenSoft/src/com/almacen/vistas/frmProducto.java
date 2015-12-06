@@ -8,7 +8,13 @@ package com.almacen.vistas;
 import com.almacen.entity.Categoria;
 import com.almacen.entity.Producto;
 import com.almacen.entity.UnidadMedida;
+import com.almacen.logic.CategoriaBL;
 import com.almacen.logic.ProductoBL;
+import com.almacen.logic.UnidadMedidaBL;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import recursos.OptionValues;
 
 /**
@@ -17,12 +23,22 @@ import recursos.OptionValues;
  */
 public class frmProducto extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form frmProducto
-     */
+    private int idTabla;
+    private List<Producto> lstProducto;
+    private List<UnidadMedida> lstUnidadMedida;
+    private List<Categoria> lstCategoria;
+    private Categoria objCategoria;
+    private UnidadMedida objUnidadMedida;
+    private Producto objProducto;
+
     public frmProducto() {
         initComponents();
         disableControls();
+        manageButtons(0);
+        listarCategoria();
+        listarUnidadMedida();
+        listarProducto();
+        initComboBox();
     }
 
     /**
@@ -56,6 +72,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
         btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jtbBuscar = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtbProducto = new javax.swing.JTable();
 
@@ -72,7 +89,19 @@ public class frmProducto extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Categoria:");
 
+        cboCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboCategoriaActionPerformed(evt);
+            }
+        });
+
         jLabel4.setText("U. Medida:");
+
+        cboUnidadMedida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboUnidadMedidaActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Stock:");
 
@@ -83,6 +112,11 @@ public class frmProducto extends javax.swing.JInternalFrame {
         jLabel8.setText("Stock Minimo:");
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -106,6 +140,18 @@ public class frmProducto extends javax.swing.JInternalFrame {
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        jtbBuscar.setText("jToggleButton1");
+        jtbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -121,23 +167,27 @@ public class frmProducto extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel6))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cboCategoria, 0, 125, Short.MAX_VALUE)
-                                    .addComponent(txtStockMax))
-                                .addGap(36, 36, 36)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel7))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addComponent(cboCategoria, 0, 185, Short.MAX_VALUE)
+                                    .addComponent(txtStockMax)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(14, 14, 14)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                                .addGap(57, 57, 57)
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(9, 9, 9)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cboUnidadMedida, 0, 116, Short.MAX_VALUE)
@@ -170,7 +220,8 @@ public class frmProducto extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtbBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -197,6 +248,11 @@ public class frmProducto extends javax.swing.JInternalFrame {
         );
 
         jtbProducto.setToolTipText("");
+        jtbProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtbProductoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtbProducto);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -216,7 +272,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -224,34 +280,120 @@ public class frmProducto extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        int ok = JOptionPane.showConfirmDialog(this, "¿Desea eliminar el registro?", "ELIMINAR", JOptionPane.YES_NO_OPTION);
+        if (ok == JOptionPane.OK_OPTION) {
+            OptionValues mode = OptionValues.DELETE;
+            boolean result = ProductoBL.getInstance().delete(mode.getValue(), objProducto);
+            if (result) {
+                listarProducto();
+                JOptionPane.showMessageDialog(this, "Se eliminó correctamente el producto.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al eliminar el producto.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if (!isEmpty()) {
+            Producto objProducto = new Producto(
+                    0, txtNombre.getText(),
+                    txtCodigo.getText(), Integer.parseInt(txtStock.getText()),
+                    Integer.parseInt(txtStockMax.getText()), Integer.parseInt(txtStockMedio.getText()),
+                    Integer.parseInt(txtStockMinimo.getText()),
+                    new UnidadMedida(objUnidadMedida.getIdUnidadMedida(), "", "", true),
+                    new Categoria(objCategoria.getIdCategoria(), "", true),
+                    true);
 
-        System.out.println("-   " + cboUnidadMedida.getSelectedItem().toString());
+            OptionValues mode = OptionValues.INSERT;
+            int result = ProductoBL.getInstance().insert(mode.getValue(), objProducto);
 
-        Producto objProducto = new Producto(
-                0, txtNombre.getText(),
-                txtCodigo.getText(), Integer.parseInt(txtStock.getText()),
-                Integer.parseInt(txtStockMax.getText()), Integer.parseInt(txtStockMedio.getText()),
-                Integer.parseInt(txtStockMinimo.getText()),
-                new UnidadMedida(Integer.parseInt(cboUnidadMedida.getSelectedItem().toString()),
-                        "", "", true), new Categoria(), true);
-
-        OptionValues mode = OptionValues.INSERT;
-        int result = ProductoBL.getInstance().insert(mode.getValue(), objProducto);
-        if (result > 0) {
-            System.out.println("ok");
+            if (result > 0) {
+                listarProducto();
+                JOptionPane.showMessageDialog(this, "Se registro correctamente el producto.");
+            } else {
+                JOptionPane.showMessageDialog(this, "El producto ya existe.", "ALERTA", JOptionPane.WARNING_MESSAGE);
+            }
         } else {
-            System.out.println("no");
+            JOptionPane.showMessageDialog(this, "Llenar campos vacíos.", "ALERTA", JOptionPane.WARNING_MESSAGE);
         }
-
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        enableControls();
+        manageButtons(1);
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void cboCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCategoriaActionPerformed
+        objCategoria = lstCategoria.get(cboCategoria.getSelectedIndex());
+    }//GEN-LAST:event_cboCategoriaActionPerformed
+
+    private void cboUnidadMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboUnidadMedidaActionPerformed
+        objUnidadMedida = lstUnidadMedida.get(cboUnidadMedida.getSelectedIndex());
+    }//GEN-LAST:event_cboUnidadMedidaActionPerformed
+
+    private void jtbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbBuscarActionPerformed
+        if (!jtbBuscar.isSelected()) {
+            jtbBuscar.setText("Habilitar");
+            buscarProducto(txtCodigo.getText());
+            txtCodigo.setEnabled(false);
+            txtCodigo.setEditable(false);
+        } else {
+            jtbBuscar.setText("Buscar");
+            txtCodigo.setEnabled(true);
+            txtCodigo.setEditable(true);
+        }
+    }//GEN-LAST:event_jtbBuscarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        manageButtons(0);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (!isEmpty()) {
+            int ok = JOptionPane.showConfirmDialog(this, "¿Desea actualizar el registro?", "EDITAR", JOptionPane.YES_NO_OPTION);
+            if (ok == JOptionPane.OK_OPTION) {
+                objProducto.setNombre(txtNombre.getText());
+                objProducto.setStock(Integer.parseInt(txtStock.getText()));
+                objProducto.setValorMaximo(Integer.parseInt(txtStockMax.getText()));
+                objProducto.setValorMedio(Integer.parseInt(txtStockMedio.getText()));
+                objProducto.setValorMinimo(Integer.parseInt(txtStockMinimo.getText()));
+                objCategoria = lstCategoria.get(cboCategoria.getSelectedIndex());
+                objProducto.setObjCategoria(objCategoria);
+                objUnidadMedida = lstUnidadMedida.get(cboUnidadMedida.getSelectedIndex());
+                objProducto.setObjUnidadMedida(objUnidadMedida);
+
+                OptionValues mode = OptionValues.UPDATE;
+                boolean result = ProductoBL.getInstance().update(mode.getValue(), objProducto);
+
+                if (result) {
+                    listarProducto();
+                    JOptionPane.showMessageDialog(this, "Se editó correctamente el producto.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al editar el producto.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Llenar campos vacíos.", "ALERTA", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void jtbProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbProductoMouseClicked
+        manageButtons(2);
+
+        idTabla = jtbProducto.getSelectedRow();
+        if (idTabla != -1) {
+            objProducto = new Producto();
+            objProducto = lstProducto.get(idTabla);
+            txtNombre.setText(objProducto.getNombre());
+            txtStock.setText(objProducto.getStock() + "");
+            txtStockMax.setText(objProducto.getValorMaximo() + "");
+            txtStockMedio.setText(objProducto.getValorMedio() + "");
+            txtStockMinimo.setText(objProducto.getValorMinimo() + "");
+            cboCategoria.setSelectedItem(objProducto.getObjCategoria().getDescripcion());
+            cboUnidadMedida.setSelectedItem(objProducto.getObjUnidadMedida().getDescripcion());
+        }
+
+    }//GEN-LAST:event_jtbProductoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -272,6 +414,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jtbBuscar;
     private javax.swing.JTable jtbProducto;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtNombre;
@@ -293,7 +436,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
     }
 
     public void enableControls() {
-        txtCodigo.setEnabled(true);
+        //txtCodigo.setEnabled(true);
         txtNombre.setEditable(true);
         txtStock.setEditable(true);
         txtStockMax.setEnabled(true);
@@ -301,6 +444,138 @@ public class frmProducto extends javax.swing.JInternalFrame {
         txtStockMinimo.setEnabled(true);
         cboCategoria.setEnabled(true);
         cboUnidadMedida.setEnabled(true);
+    }
+
+    private void listarCategoria() {
+        lstCategoria = CategoriaBL.getInstance().listAll();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        for (Categoria c : lstCategoria) {
+            modelo.addElement(c.getDescripcion());
+        }
+        cboCategoria.setModel(modelo);
+
+    }
+
+    private void listarUnidadMedida() {
+        lstUnidadMedida = UnidadMedidaBL.getInstance().listAll();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        for (UnidadMedida um : lstUnidadMedida) {
+            modelo.addElement(um.getDescripcion());
+        }
+        cboUnidadMedida.setModel(modelo);
+    }
+
+    private void listarProducto() {
+        lstProducto = ProductoBL.getInstance().listAll();
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        modelo.addColumn("CÓDIGO");
+        modelo.addColumn("PRODUCTO");
+        modelo.addColumn("CATEGORÍA");
+        modelo.addColumn("UNIDAD DE MEDIDA");
+        modelo.addColumn("STOCK");
+        modelo.addColumn("VAL. MÍNIMO");
+        modelo.addColumn("VAL. MEDIO");
+        modelo.addColumn("VAL. MÁXIMO");
+        for (Producto p : lstProducto) {
+            modelo.addRow(new Object[]{
+                p.getCodigo(),
+                p.getNombre(),
+                p.getObjCategoria().getDescripcion(),
+                p.getObjUnidadMedida().getDescripcion(),
+                p.getStock(),
+                p.getValorMinimo(),
+                p.getValorMedio(),
+                p.getValorMaximo()
+            });
+        }
+        jtbProducto.setModel(modelo);
+    }
+
+    private void buscarProducto(String codigo) {
+        lstProducto = ProductoBL.getInstance().search(codigo);
+
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("CÓDIGO");
+        modelo.addColumn("PRODUCTO");
+        modelo.addColumn("CATEGORÍA");
+        modelo.addColumn("UNIDAD DE MEDIDA");
+        modelo.addColumn("STOCK");
+        modelo.addColumn("VAL. MÍNIMO");
+        modelo.addColumn("VAL. MEDIO");
+        modelo.addColumn("VAL. MÁXIMO");
+
+        for (Producto p : lstProducto) {
+            modelo.addRow(new Object[]{
+                p.getCodigo(),
+                p.getNombre(),
+                p.getObjCategoria().getDescripcion(),
+                p.getObjUnidadMedida().getDescripcion(),
+                p.getStock(),
+                p.getValorMinimo(),
+                p.getValorMedio(),
+                p.getValorMaximo()
+            });
+        }
+
+        jtbProducto.setModel(modelo);
+    }
+
+    private void initComboBox() {
+        jtbBuscar.setText("Habilitar");
+        objCategoria = new Categoria();
+        objCategoria = lstCategoria.get(cboCategoria.getSelectedIndex());
+        objUnidadMedida = new UnidadMedida();
+        objUnidadMedida = lstUnidadMedida.get(cboUnidadMedida.getSelectedIndex());
+    }
+
+    private boolean isEmpty() {
+        if (txtNombre.getText().equals("") || txtStock.getText().equals("")
+                || txtStockMax.getText().equals("") || txtStockMedio.getText().equals("")
+                || txtStockMinimo.getText().equals("")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void clearControls() {
+        txtCodigo.setText("");
+        txtNombre.setText("");
+        txtStock.setText("");
+        txtStockMax.setText("");
+        txtStockMedio.setText("");
+        txtStockMinimo.setText("");
+    }
+
+    private void manageButtons(int caso) {
+        switch (caso) {
+            case 0:
+                btnNuevo.setEnabled(true);
+                btnEditar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                btnGuardar.setEnabled(false);
+                btnCancelar.setEnabled(false);
+                clearControls();
+                disableControls();
+                break;
+            case 1:
+                btnGuardar.setEnabled(true);
+                btnCancelar.setEnabled(true);
+                btnNuevo.setEnabled(false);
+                clearControls();
+                enableControls();
+                break;
+            case 2:
+                btnNuevo.setEnabled(false);
+                btnEditar.setEnabled(true);
+                btnEliminar.setEnabled(true);
+                btnCancelar.setEnabled(true);
+                btnGuardar.setEnabled(false);
+                clearControls();
+                enableControls();
+                break;
+        }
     }
 
 }
