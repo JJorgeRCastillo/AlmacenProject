@@ -5,6 +5,8 @@
  */
 package com.almacen.vistas;
 
+import org.jvnet.substance.SubstanceLookAndFeel;
+
 /**
  *
  * @author JorgePC
@@ -162,6 +164,8 @@ public class frmLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessBlueSteelSkin");
+                SubstanceLookAndFeel.setCurrentTheme("org.jvnet.substance.theme.SubstanceNegatedTheme");
                 new frmLogin().setVisible(true);
             }
         });

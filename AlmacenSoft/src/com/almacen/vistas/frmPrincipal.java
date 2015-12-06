@@ -5,18 +5,17 @@
  */
 package com.almacen.vistas;
 
+import recursos.Util;
+
 /**
  *
  * @author JorgePC
  */
 public class frmPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form frmPrincipal
-     */
     public frmPrincipal() {
         initComponents();
-
+        setExtendedState(MAXIMIZED_BOTH);
     }
 
     /**
@@ -69,6 +68,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("SISTEMA DE ALMACÉN V.1.0");
 
         javax.swing.GroupLayout dskContenedorLayout = new javax.swing.GroupLayout(dskContenedor);
         dskContenedor.setLayout(dskContenedorLayout);
@@ -172,8 +172,10 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void sbmCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmCategoriaActionPerformed
         frmProducto ventana = new frmProducto();
-        dskContenedor.add(ventana);
-        ventana.setVisible(true);
+        if (!Util.getInstance().isJInternalFrameOpen(ventana, dskContenedor)) {
+            dskContenedor.add(ventana);
+            ventana.setVisible(true);
+        }
     }//GEN-LAST:event_sbmCategoriaActionPerformed
 
     private void sbmProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmProveedorActionPerformed
