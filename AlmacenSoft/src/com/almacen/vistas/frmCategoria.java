@@ -5,6 +5,12 @@
  */
 package com.almacen.vistas;
 
+import javax.swing.JOptionPane;
+import com.almacen.logic.CategoriaBL;
+import com.almacen.entity.Categoria;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author JorgePC
@@ -14,8 +20,15 @@ public class frmCategoria extends javax.swing.JInternalFrame {
     /**
      * Creates new form frmCategoria
      */
+    private List<Categoria> listaCategoria;
+    private int categoriaID;
+
     public frmCategoria() {
         initComponents();
+        listarAll();
+
+        manageButtons(0);
+
     }
 
     /**
@@ -54,8 +67,18 @@ public class frmCategoria extends javax.swing.JInternalFrame {
         });
 
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Elimiinar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -72,6 +95,11 @@ public class frmCategoria extends javax.swing.JInternalFrame {
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -109,6 +137,11 @@ public class frmCategoria extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jtbCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtbCategoriaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtbCategoria);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -135,17 +168,93 @@ public class frmCategoria extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+
+        if (!isEmpty()) {
+
+            Categoria objCategoria = new Categoria();
+            objCategoria.setIdCategoria(0);
+            objCategoria.setDescripcion(txtCategoria.getText());
+            int result = CategoriaBL.getInstance().insert(1, objCategoria);
+            if (result > 0) {
+                listarAll();
+                JOptionPane.showMessageDialog(null, "Se registro correctamente.", null, JOptionPane.INFORMATION_MESSAGE);
+                clearControls();
+            } else {
+                JOptionPane.showMessageDialog(null, "La categoria ya existe.", null, JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        if (!isEmpty()) {
+            int rpta = JOptionPane.showConfirmDialog(null, "¿Desea eliminar registro?",
+                    "ELIMINAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (rpta == JOptionPane.OK_OPTION) {
+                Categoria objCategoria = new Categoria();
+                objCategoria.setIdCategoria(categoriaID);
+                boolean result = CategoriaBL.getInstance().delete(3, objCategoria);
+                if (result) {
+                    listarAll();
+                    JOptionPane.showMessageDialog(null, "Se elimino correctamente .", null, JOptionPane.INFORMATION_MESSAGE);
+                    clearControls();
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo elminar.", null, JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCategoriaActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+
+        if (!isEmpty()) {
+            int rpta = JOptionPane.showConfirmDialog(null, "¿Desea editar registro?",
+                    "EDITAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (rpta == JOptionPane.OK_OPTION) {
+
+                Categoria objCategoria = new Categoria();
+                objCategoria.setIdCategoria(categoriaID);
+                objCategoria.setDescripcion(txtCategoria.getText());
+
+                boolean result = CategoriaBL.getInstance().update(2, objCategoria);
+                if (result) {
+                    listarAll();
+                    JOptionPane.showMessageDialog(null, "Se Edito correctamente.", null, JOptionPane.INFORMATION_MESSAGE);
+                    clearControls();
+                } else {
+                    JOptionPane.showMessageDialog(null, "La categoria ya existe.", null, JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        manageButtons(1);
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        clearControls();
+        manageButtons(0);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void jtbCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbCategoriaMouseClicked
+        int i = jtbCategoria.getSelectedRow();
+        if (i != -1) {
+            manageButtons(2);
+            Categoria objCategoria = new Categoria();
+            objCategoria = listaCategoria.get(i);
+
+            categoriaID = objCategoria.getIdCategoria();
+            txtCategoria.setText((String) jtbCategoria.getValueAt(i, 0));
+        }
+
+    }//GEN-LAST:event_jtbCategoriaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -160,4 +269,75 @@ public class frmCategoria extends javax.swing.JInternalFrame {
     private javax.swing.JTable jtbCategoria;
     private javax.swing.JTextField txtCategoria;
     // End of variables declaration//GEN-END:variables
+
+    private void listarAll() {
+        listaCategoria = CategoriaBL.getInstance().listAll();
+
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("DESCRIPCION");
+        modelo.addColumn("ESTADO");
+        for (Categoria categoria : listaCategoria) {
+            modelo.addRow(new Object[]{
+                categoria.getDescripcion(),
+                categoria.isEstado() == true ? "Activo" : "Inactivo"
+            });
+        }
+        jtbCategoria.setModel(modelo);
+    }
+
+    private void manageButtons(int caso) {
+        switch (caso) {
+            //al iniciar el formulario
+            case 0:
+                btnNuevo.setEnabled(true);
+                btnGuardar.setEnabled(false);
+                btnEditar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                btnCancelar.setEnabled(false);
+                disableControls();
+                break;
+            //boton nuevo presionado  
+            case 1:
+                btnNuevo.setEnabled(false);
+                btnGuardar.setEnabled(true);
+                btnEditar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                btnCancelar.setEnabled(true);
+                enableControls();
+                break;
+            //cuando selecciona una fila del jtable
+            case 2:
+                btnNuevo.setEnabled(false);
+                btnGuardar.setEnabled(false);
+                btnEditar.setEnabled(true);
+                btnEliminar.setEnabled(true);
+                btnCancelar.setEnabled(true);
+                enableControls();
+                break;
+
+        }
+
+    }
+
+    private void disableControls() {
+        txtCategoria.setEnabled(false);
+    }
+
+    private void enableControls() {
+        txtCategoria.setEnabled(true);
+    }
+
+    private void clearControls() {
+        txtCategoria.setText("");
+        categoriaID=0;
+    }
+
+    private boolean isEmpty() {
+        if (txtCategoria.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Llenar campos vacios.", "ALERTA", JOptionPane.WARNING_MESSAGE);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -32,13 +32,10 @@ public class CategoriaDAO implements ICategoria {
         int result = 0;
         try {
             CallableStatement cstm = con.prepareCall("{call sp_CRUDCategoria(?,?,?)}"); // int modo, int id, string des
-            cstm.setString(1, "1");
+            cstm.setInt(1, modo);
             cstm.setInt(2, 0);
             cstm.setString(3, objCategoria.getDescripcion());
-            ResultSet rs = cstm.executeQuery();
-            if (rs.next()) {
-                result = rs.getInt(1); // result
-            }
+            result = cstm.executeUpdate();
             cstm.close();
             con.close();
         } catch (Exception ex) {
@@ -53,11 +50,12 @@ public class CategoriaDAO implements ICategoria {
         boolean result = false;
         try {
             CallableStatement cstm = con.prepareCall("{call sp_CRUDCategoria(?,?,?)}");
-            cstm.setString(1, "3");
+            cstm.setInt(1, modo);
             cstm.setInt(2, objCategoria.getIdCategoria());
             cstm.setString(3, "");
-            cstm.execute();
-            result = true;
+            if (cstm.executeUpdate() == 1) {
+                result = true;
+            } 
             cstm.close();
             con.close();
         } catch (Exception ex) {
@@ -72,11 +70,12 @@ public class CategoriaDAO implements ICategoria {
         boolean result = false;
         try {
             CallableStatement cstm = con.prepareCall("{call sp_CRUDCategoria(?,?,?)}");
-            cstm.setString(1, "2");
+            cstm.setInt(1, modo);
             cstm.setInt(2, objCategoria.getIdCategoria());
             cstm.setString(3, objCategoria.getDescripcion());
-            cstm.execute();
-            result = true;
+            if (cstm.executeUpdate() == 1) {
+                result = true;
+            }
             cstm.close();
             con.close();
         } catch (Exception ex) {
@@ -96,7 +95,8 @@ public class CategoriaDAO implements ICategoria {
                 lstCategoria.add(new Categoria(
                         rs.getInt(1),
                         rs.getString(2),
-                        true));
+                        rs.getBoolean(3)
+                ));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
