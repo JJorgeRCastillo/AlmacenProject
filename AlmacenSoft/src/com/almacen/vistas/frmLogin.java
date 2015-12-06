@@ -132,6 +132,7 @@ public class frmLogin extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         frmPrincipal ventana = new frmPrincipal();
         ventana.setVisible(true); 
+        this.dispose();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

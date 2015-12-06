@@ -5,6 +5,12 @@
  */
 package com.almacen.vistas;
 
+import com.almacen.entity.Categoria;
+import com.almacen.entity.Producto;
+import com.almacen.entity.UnidadMedida;
+import com.almacen.logic.ProductoBL;
+import recursos.OptionValues;
+
 /**
  *
  * @author JorgePC
@@ -16,6 +22,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
      */
     public frmProducto() {
         initComponents();
+        disableControls();
     }
 
     /**
@@ -61,33 +68,15 @@ public class frmProducto extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Codigo:");
 
-        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodigoActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Nombre:");
 
         jLabel3.setText("Categoria:");
-
-        cboCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboCategoriaActionPerformed(evt);
-            }
-        });
 
         jLabel4.setText("U. Medida:");
 
         jLabel5.setText("Stock:");
 
         jLabel6.setText("Stock Max:");
-
-        txtStockMax.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockMaxActionPerformed(evt);
-            }
-        });
 
         jLabel7.setText("Stock Medio:");
 
@@ -103,6 +92,11 @@ public class frmProducto extends javax.swing.JInternalFrame {
         });
 
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -127,7 +121,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel6))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cboCategoria, 0, 143, Short.MAX_VALUE)
+                                    .addComponent(cboCategoria, 0, 125, Short.MAX_VALUE)
                                     .addComponent(txtStockMax))
                                 .addGap(36, 36, 36)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -138,24 +132,24 @@ public class frmProducto extends javax.swing.JInternalFrame {
                                 .addGap(14, 14, 14)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                                 .addGap(57, 57, 57)
                                 .addComponent(jLabel2)
                                 .addGap(9, 9, 9)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtStockMedio, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtStockMinimo, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
-                            .addComponent(txtNombre)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cboUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cboUnidadMedida, 0, 116, Short.MAX_VALUE)
+                                    .addComponent(txtStockMedio))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel5)
-                                .addGap(1, 1, 1)
-                                .addComponent(txtStock))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtStockMinimo)
+                                    .addComponent(txtStock)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnNuevo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -229,25 +223,35 @@ public class frmProducto extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodigoActionPerformed
-
-    private void txtStockMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockMaxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStockMaxActionPerformed
-
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+
+        System.out.println("-   " + cboUnidadMedida.getSelectedItem().toString());
+
+        Producto objProducto = new Producto(
+                0, txtNombre.getText(),
+                txtCodigo.getText(), Integer.parseInt(txtStock.getText()),
+                Integer.parseInt(txtStockMax.getText()), Integer.parseInt(txtStockMedio.getText()),
+                Integer.parseInt(txtStockMinimo.getText()),
+                new UnidadMedida(Integer.parseInt(cboUnidadMedida.getSelectedItem().toString()),
+                        "", "", true), new Categoria(), true);
+
+        OptionValues mode = OptionValues.INSERT;
+        int result = ProductoBL.getInstance().insert(mode.getValue(), objProducto);
+        if (result > 0) {
+            System.out.println("ok");
+        } else {
+            System.out.println("no");
+        }
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void cboCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCategoriaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboCategoriaActionPerformed
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        enableControls();
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -276,4 +280,27 @@ public class frmProducto extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtStockMedio;
     private javax.swing.JTextField txtStockMinimo;
     // End of variables declaration//GEN-END:variables
+
+    public void disableControls() {
+        txtCodigo.setEnabled(false);
+        txtNombre.setEditable(false);
+        txtStock.setEditable(false);
+        txtStockMax.setEnabled(false);
+        txtStockMedio.setEnabled(false);
+        txtStockMinimo.setEnabled(false);
+        cboCategoria.setEnabled(false);
+        cboUnidadMedida.setEnabled(false);
+    }
+
+    public void enableControls() {
+        txtCodigo.setEnabled(true);
+        txtNombre.setEditable(true);
+        txtStock.setEditable(true);
+        txtStockMax.setEnabled(true);
+        txtStockMedio.setEnabled(true);
+        txtStockMinimo.setEnabled(true);
+        cboCategoria.setEnabled(true);
+        cboUnidadMedida.setEnabled(true);
+    }
+
 }
