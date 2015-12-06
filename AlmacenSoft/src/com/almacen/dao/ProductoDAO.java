@@ -7,6 +7,8 @@ package com.almacen.dao;
 
 import com.almacen.contratos.IProducto;
 import com.almacen.entity.Producto;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,16 @@ public class ProductoDAO implements IProducto{
     
     @Override
     public int insert(int modo, Producto objProducto) {
-        return 0;
+        Connection con = ConectionManagerSQL.getConnection();
+        int result = 0;
+        try{
+            CallableStatement cstm = con.prepareCall("{call sp_CRUDProducto(?,?,?,?,?,?,?,?,?,?) }");
+            cstm.setInt(1, modo);
+      
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return result;
     }
 
     @Override
