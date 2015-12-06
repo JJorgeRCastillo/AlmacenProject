@@ -195,6 +195,7 @@ public class frmUnidadMedida extends javax.swing.JInternalFrame {
             OptionValues mode = OptionValues.INSERT;
             int result = UnidadMedidaBL.getInstance().insert(mode.getValue(), objUnidadMedida);
             if (result > 0) {
+                llenarLista();
                 JOptionPane.showMessageDialog(this, "Se registro correctamente la unidad de medida.");
             } else {
                 JOptionPane.showMessageDialog(this, "La unidad de medida ya existe.", "ERROR", JOptionPane.ERROR_MESSAGE);
