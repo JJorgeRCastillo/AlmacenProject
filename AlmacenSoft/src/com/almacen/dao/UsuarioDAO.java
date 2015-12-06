@@ -1,15 +1,18 @@
 package com.almacen.dao;
 
+import com.almacen.contratos.IUsuario;
 import com.almacen.entity.Usuario;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author JorgePC
  */
-public class UsuarioDAO {
+public class UsuarioDAO implements IUsuario{
 
     public static UsuarioDAO instance = null;
 
@@ -47,6 +50,35 @@ public class UsuarioDAO {
             ex.printStackTrace();
         }
         return objUsuario;
+    }
+
+    @Override
+    public int insert(int modo, Usuario objUsuario) {
+        return 0;
+    }
+
+    @Override
+    public boolean delete(int modo, Usuario objUsuario) {
+        return true;
+    }
+
+    @Override
+    public boolean update(int modo, Usuario objUsuario) {
+        return true;
+    }
+
+    @Override
+    public List<Usuario> listAll() {
+        List<Usuario> lista = new ArrayList<Usuario>();
+        
+        return lista;
+    }
+
+    @Override
+    public List<Usuario> search(String descripcion) {
+        List<Usuario> lista = new ArrayList<Usuario>();
+        
+        return lista;
     }
     
 }

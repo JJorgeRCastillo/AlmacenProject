@@ -10,9 +10,9 @@ import java.util.List;
 public interface ICategoria {
     
     // insertar, eliminar, actualizar, buscar, listar
-    public int insert(Categoria objCategoria);
-    public boolean delete(Categoria objCategoria);
-    public boolean update(Categoria objCategoria);
+    public int insert(int modo, Categoria objCategoria);
+    public boolean delete(int modo, Categoria objCategoria);
+    public boolean update(int modo, Categoria objCategoria);
     public List<Categoria> listAll();
     public List<Categoria> search(String descripcion);
     

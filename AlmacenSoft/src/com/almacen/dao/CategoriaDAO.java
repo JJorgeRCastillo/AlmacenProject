@@ -27,7 +27,7 @@ public class CategoriaDAO implements ICategoria {
     }
 
     @Override
-    public int insert(Categoria objCategoria) {
+    public int insert(int modo, Categoria objCategoria) {
         Connection con = ConectionManagerSQL.getConnection();
         int result = 0;
         try {
@@ -48,7 +48,7 @@ public class CategoriaDAO implements ICategoria {
     }
 
     @Override
-    public boolean delete(Categoria objCategoria) {
+    public boolean delete(int modo, Categoria objCategoria) {
         Connection con = ConectionManagerSQL.getConnection();
         boolean result = false;
         try {
@@ -67,7 +67,7 @@ public class CategoriaDAO implements ICategoria {
     }
 
     @Override
-    public boolean update(Categoria objCategoria) {
+    public boolean update(int modo, Categoria objCategoria) {
         Connection con = ConectionManagerSQL.getConnection();
         boolean result = false;
         try {
