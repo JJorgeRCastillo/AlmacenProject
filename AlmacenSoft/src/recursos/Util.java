@@ -9,12 +9,23 @@ import javax.swing.JInternalFrame;
  */
 public class Util {
 
-    public Util() {
-
+    
+    private static Util instance = null;
+    
+    private Util(){        
     }
+    
+    public static Util getInstance(){
+        if(instance == null){
+            instance = new Util();
+        }
+        return instance;
+    }
+
     
     // método para saber si un JInternalFrame ya fue creado
     public boolean isJInternalFrameOpen(Object obj, JDesktopPane dskContenedor) {
+                
         JInternalFrame[] objActivos = dskContenedor.getAllFrames();
         boolean cerrado = false;
         for (JInternalFrame frame : objActivos) {
