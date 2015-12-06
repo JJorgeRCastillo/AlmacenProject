@@ -28,7 +28,7 @@ public class ProductoBL {
 
     public int insert(int modo, Producto objProducto) {
         try {
-            return ProductoDAO.instance.insert(modo, objProducto);
+            return ProductoDAO.getInstance().insert(modo, objProducto);
         } catch (Exception e) {
             throw e;
         }
@@ -36,7 +36,7 @@ public class ProductoBL {
 
     public boolean delete(int modo, Producto objProducto) {
         try {
-            return ProductoDAO.instance.delete(modo, objProducto);
+            return ProductoDAO.getInstance().delete(modo, objProducto);
         } catch (Exception e) {
             throw e;
         }
@@ -44,7 +44,7 @@ public class ProductoBL {
 
     public boolean update(int modo, Producto objProducto) {
         try {
-            return ProductoDAO.instance.update(modo, objProducto);
+            return ProductoDAO.getInstance().update(modo, objProducto);
         } catch (Exception e) {
             throw e;
         }
@@ -52,7 +52,7 @@ public class ProductoBL {
 
     public List<Producto> listAll() {
         try {
-            return ProductoDAO.instance.listAll();
+            return ProductoDAO.getInstance().listAll();
         } catch (Exception e) {
             throw e;
         }
@@ -60,7 +60,7 @@ public class ProductoBL {
 
     public List<Producto> search(String descripcion) {
         try {
-            return ProductoDAO.instance.search(descripcion);
+            return ProductoDAO.getInstance().search(descripcion);
         } catch (Exception e) {
             throw e;
         }

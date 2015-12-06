@@ -14,6 +14,7 @@ public class Producto {
     private int idProducto;
     private String nombre;
     private String codigo;
+    private int stock;
     private int valorMaximo;
     private int valorMedio;
     private int valorMinimo;
@@ -25,10 +26,11 @@ public class Producto {
         
     }
     
-    public Producto(int idProducto, String nombre, String codigo, int valorMaximo, int valorMedio, int valorMinimo, UnidadMedida objUnidadMedida, Categoria objCategoria, boolean  estado){
+    public Producto(int idProducto, String nombre, String codigo, int stock, int valorMaximo, int valorMedio, int valorMinimo, UnidadMedida objUnidadMedida, Categoria objCategoria, boolean  estado){
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.codigo = codigo;
+        this.stock = stock;
         this.valorMaximo = valorMaximo;
         this.valorMedio = valorMedio;
         this.valorMinimo = valorMinimo;
@@ -107,6 +109,14 @@ public class Producto {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     

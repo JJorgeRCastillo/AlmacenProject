@@ -1,16 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.almacen.dao;
 
 import com.almacen.contratos.IProducto;
 import com.almacen.entity.Producto;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  *
@@ -18,11 +15,11 @@ import java.util.List;
  */
 public class ProductoDAO implements IProducto{
 
-    public static ProductoDAO instance = null;
+    private static ProductoDAO instance = null;
 
     private ProductoDAO() {
     }
-
+    
     public static ProductoDAO getInstance() {
         if (instance == null) {
             instance = new ProductoDAO();
@@ -35,9 +32,28 @@ public class ProductoDAO implements IProducto{
         Connection con = ConectionManagerSQL.getConnection();
         int result = 0;
         try{
-            CallableStatement cstm = con.prepareCall("{call sp_CRUDProducto(?,?,?,?,?,?,?,?,?,?) }");
+            CallableStatement cstm = con.prepareCall("{call sp_CRUDProducto(?,?,?,?,?,?,?,?,?,?)}");
             cstm.setInt(1, modo);
-      
+            cstm.setInt(2, 0);
+            cstm.setInt(3, 0);
+            cstm.setInt(4, 0);
+            cstm.setString(5, objProducto.getCodigo());
+            cstm.setString(6, objProducto.getNombre());
+            cstm.setInt(7, objProducto.getStock());
+            cstm.setInt(8, objProducto.getValorMaximo());
+            cstm.setInt(8, objProducto.getValorMedio());
+            cstm.setInt(9, objProducto.getValorMinimo());
+            
+            ResultSet rs = cstm.executeQuery();
+            
+            if(rs.next()){
+                result  = rs.getInt(1);
+            }
+            
+            cstm.close();
+            con.close();
+            
+            
         }catch(Exception ex){
             ex.printStackTrace();
         }

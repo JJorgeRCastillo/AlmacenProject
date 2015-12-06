@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class UnidadMedidaBL {
 
-    public static UnidadMedidaBL instance = null;
+    private static UnidadMedidaBL instance = null;
 
     private UnidadMedidaBL() {
     }
@@ -29,7 +29,7 @@ public class UnidadMedidaBL {
 
     public int insert(int modo, UnidadMedida objUnidadMedida) {
         try {
-            return UnidadMedidaDAO.instance.insert(modo, objUnidadMedida);
+            return UnidadMedidaDAO.getInstance().insert(modo, objUnidadMedida);
         } catch (Exception e) {
             throw e;
         }
@@ -37,7 +37,7 @@ public class UnidadMedidaBL {
 
     public boolean delete(int modo, UnidadMedida objUnidadMedida) {
         try {
-            return UnidadMedidaDAO.instance.delete(modo, objUnidadMedida);
+            return UnidadMedidaDAO.getInstance().delete(modo, objUnidadMedida);
         } catch (Exception e) {
             throw e;
         }
@@ -45,7 +45,7 @@ public class UnidadMedidaBL {
 
     public boolean update(int modo, UnidadMedida objUnidadMedida) {
         try {
-            return UnidadMedidaDAO.instance.update(modo, objUnidadMedida);
+            return UnidadMedidaDAO.getInstance().update(modo, objUnidadMedida);
         } catch (Exception e) {
             throw e;
         }
@@ -53,7 +53,7 @@ public class UnidadMedidaBL {
 
     public List<UnidadMedida> listAll() {
         try {
-            return UnidadMedidaDAO.instance.listAll();
+            return UnidadMedidaDAO.getInstance().listAll();
         } catch (Exception e) {
             throw e;
         }
@@ -61,7 +61,7 @@ public class UnidadMedidaBL {
 
     public List<UnidadMedida> search(String descripcion) {
         try {
-            return UnidadMedidaDAO.instance.search(descripcion);
+            return UnidadMedidaDAO.getInstance().search(descripcion);
         } catch (Exception e) {
             throw e;
         }
