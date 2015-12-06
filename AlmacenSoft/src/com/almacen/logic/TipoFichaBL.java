@@ -28,7 +28,7 @@ public class TipoFichaBL {
 
     public int insert(int modo, TipoFicha objTipoFicha) {
         try {
-            return TipoFichaDAO.instance.insert(modo, objTipoFicha);
+            return TipoFichaDAO.getInstance().insert(modo, objTipoFicha);
         } catch (Exception e) {
             throw e;
         }
@@ -36,7 +36,7 @@ public class TipoFichaBL {
 
     public boolean delete(int modo, TipoFicha objTipoFicha) {
         try {
-            return TipoFichaDAO.instance.delete(modo, objTipoFicha);
+            return TipoFichaDAO.getInstance().delete(modo, objTipoFicha);
         } catch (Exception e) {
             throw e;
         }
@@ -44,7 +44,7 @@ public class TipoFichaBL {
 
     public boolean update(int modo, TipoFicha objTipoFicha) {
         try {
-            return TipoFichaDAO.instance.update(modo, objTipoFicha);
+            return TipoFichaDAO.getInstance().update(modo, objTipoFicha);
         } catch (Exception e) {
             throw e;
         }
@@ -52,7 +52,7 @@ public class TipoFichaBL {
 
     public List<TipoFicha> listAll() {
         try {
-            return TipoFichaDAO.instance.listAll();
+            return TipoFichaDAO.getInstance().listAll();
         } catch (Exception e) {
             throw e;
         }
@@ -60,7 +60,7 @@ public class TipoFichaBL {
 
     public List<TipoFicha> search(String descripcion) {
         try {
-            return TipoFichaDAO.instance.search(descripcion);
+            return TipoFichaDAO.getInstance().search(descripcion);
         } catch (Exception e) {
             throw e;
         }

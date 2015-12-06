@@ -6,8 +6,8 @@
 package com.almacen.vistas;
 
 import javax.swing.JOptionPane;
-import com.almacen.logic.CategoriaBL;
-import com.almacen.entity.Categoria;
+import com.almacen.logic.TipoFichaBL;
+import com.almacen.entity.TipoFicha;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import recursos.OptionValues;
@@ -16,18 +16,18 @@ import recursos.OptionValues;
  *
  * @author JorgePC
  */
-public class frmCategoria extends javax.swing.JInternalFrame {
+public class frmTipoFicha extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form frmCategoria
+     * Creates new form frmTipoFicha
      */
-    private List<Categoria> listaCategoria;
+    private List<TipoFicha> listaTipoFicha;
     private int categoriaID;
 
-    public frmCategoria() {
+    public frmTipoFicha() {
         initComponents();
         listarAll();
-
+        
         manageButtons(0);
 
     }
@@ -43,27 +43,27 @@ public class frmCategoria extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtCategoria = new javax.swing.JTextField();
+        txtTipoFicha = new javax.swing.JTextField();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtbCategoria = new javax.swing.JTable();
+        jtbTipoFicha = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Mantenedor Categoria");
+        setTitle("Mantenedor Tipo Ficha");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
         jPanel1.setToolTipText("");
 
         jLabel1.setText("Descripcion:");
 
-        txtCategoria.addActionListener(new java.awt.event.ActionListener() {
+        txtTipoFicha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCategoriaActionPerformed(evt);
+                txtTipoFichaActionPerformed(evt);
             }
         });
 
@@ -119,7 +119,7 @@ public class frmCategoria extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCategoria))
+                .addComponent(txtTipoFicha))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,7 +127,7 @@ public class frmCategoria extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTipoFicha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevo)
@@ -138,12 +138,12 @@ public class frmCategoria extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jtbCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtbTipoFicha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtbCategoriaMouseClicked(evt);
+                jtbTipoFichaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jtbCategoria);
+        jScrollPane1.setViewportView(jtbTipoFicha);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -174,17 +174,17 @@ public class frmCategoria extends javax.swing.JInternalFrame {
 
         if (!isEmpty()) {
 
-            Categoria objCategoria = new Categoria();
-            objCategoria.setIdCategoria(0);
-            objCategoria.setDescripcion(txtCategoria.getText());
+            TipoFicha objTipoFicha = new TipoFicha();
+            objTipoFicha.setIdTipoFicha(0);
+            objTipoFicha.setDescripcion(txtTipoFicha.getText());
             OptionValues mode= OptionValues.INSERT;
-            int result = CategoriaBL.getInstance().insert(mode.getValue(), objCategoria);
+            int result = TipoFichaBL.getInstance().insert(mode.getValue(), objTipoFicha);
             if (result > 0) {
                 listarAll();
-                JOptionPane.showMessageDialog(null, "Se registro correctamente la categoria.", null, JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Se registro correctamente el tipo ficha.", null, JOptionPane.INFORMATION_MESSAGE);
                 clearControls();
             } else {
-                JOptionPane.showMessageDialog(null, "La categoria ya existe .", null, JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "El tipo ficha ya existe .", null, JOptionPane.WARNING_MESSAGE);
             }
         }
 
@@ -195,24 +195,24 @@ public class frmCategoria extends javax.swing.JInternalFrame {
             int rpta = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registro?",
                     "ELIMINAR", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (rpta == JOptionPane.YES_OPTION) {
-                Categoria objCategoria = new Categoria();
-                objCategoria.setIdCategoria(categoriaID);
+                TipoFicha objTipoFicha = new TipoFicha();
+                objTipoFicha.setIdTipoFicha(categoriaID);
                 OptionValues mode=OptionValues.DELETE;
-                boolean result = CategoriaBL.getInstance().delete(mode.getValue(), objCategoria);
+                boolean result = TipoFichaBL.getInstance().delete(mode.getValue(), objTipoFicha);
                 if (result) {
                     listarAll();
-                    JOptionPane.showMessageDialog(null, "Se elimino correctamente la categoria.", null, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Se elimino correctamente el tipo ficha.", null, JOptionPane.INFORMATION_MESSAGE);
                     clearControls();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al eliminar la categoria.", null, JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al eliminar el tipo ficha.", null, JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void txtCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaActionPerformed
+    private void txtTipoFichaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipoFichaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCategoriaActionPerformed
+    }//GEN-LAST:event_txtTipoFichaActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
 
@@ -221,18 +221,18 @@ public class frmCategoria extends javax.swing.JInternalFrame {
                     "EDITAR", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (rpta == JOptionPane.YES_OPTION) {
 
-                Categoria objCategoria = new Categoria();
-                objCategoria.setIdCategoria(categoriaID);
-                objCategoria.setDescripcion(txtCategoria.getText());
+                TipoFicha objTipoFicha = new TipoFicha();
+                objTipoFicha.setIdTipoFicha(categoriaID);
+                objTipoFicha.setDescripcion(txtTipoFicha.getText());
                 OptionValues mode= OptionValues.UPDATE;
 
-                boolean result = CategoriaBL.getInstance().update(mode.getValue(), objCategoria);
+                boolean result = TipoFichaBL.getInstance().update(mode.getValue(), objTipoFicha);
                 if (result) {
                     listarAll();
-                    JOptionPane.showMessageDialog(null, "Se Edito correctamente la categoria.", null, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Se Edito correctamente el tipo ficha.", null, JOptionPane.INFORMATION_MESSAGE);
                     clearControls();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al editar la categoria.", null, JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al editar el tipo ficha.", null, JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
@@ -247,18 +247,18 @@ public class frmCategoria extends javax.swing.JInternalFrame {
         manageButtons(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void jtbCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbCategoriaMouseClicked
-        int i = jtbCategoria.getSelectedRow();
+    private void jtbTipoFichaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbTipoFichaMouseClicked
+        int i = jtbTipoFicha.getSelectedRow();
         if (i != -1) {
             manageButtons(2);
-            Categoria objCategoria = new Categoria();
-            objCategoria = listaCategoria.get(i);
+            TipoFicha objTipoFicha = new TipoFicha();
+            objTipoFicha = listaTipoFicha.get(i);
 
-            categoriaID = objCategoria.getIdCategoria();
-            txtCategoria.setText((String) jtbCategoria.getValueAt(i, 0));
+            categoriaID = objTipoFicha.getIdTipoFicha();
+            txtTipoFicha.setText((String) jtbTipoFicha.getValueAt(i, 0));
         }
 
-    }//GEN-LAST:event_jtbCategoriaMouseClicked
+    }//GEN-LAST:event_jtbTipoFichaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -270,23 +270,23 @@ public class frmCategoria extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtbCategoria;
-    private javax.swing.JTextField txtCategoria;
+    private javax.swing.JTable jtbTipoFicha;
+    private javax.swing.JTextField txtTipoFicha;
     // End of variables declaration//GEN-END:variables
 
     private void listarAll() {
-        listaCategoria = CategoriaBL.getInstance().listAll();
+        listaTipoFicha = TipoFichaBL.getInstance().listAll();
 
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("DESCRIPCION");
         modelo.addColumn("ESTADO");
-        for (Categoria categoria : listaCategoria) {
+        for (TipoFicha categoria : listaTipoFicha) {
             modelo.addRow(new Object[]{
                 categoria.getDescripcion(),
                 categoria.isEstado() == true ? "Activo" : "Inactivo"
             });
         }
-        jtbCategoria.setModel(modelo);
+        jtbTipoFicha.setModel(modelo);
     }
 
     private void manageButtons(int caso) {
@@ -324,20 +324,20 @@ public class frmCategoria extends javax.swing.JInternalFrame {
     }
 
     private void disableControls() {
-        txtCategoria.setEnabled(false);
+        txtTipoFicha.setEnabled(false);
     }
 
     private void enableControls() {
-        txtCategoria.setEnabled(true);
+        txtTipoFicha.setEnabled(true);
     }
 
     private void clearControls() {
-        txtCategoria.setText("");
+        txtTipoFicha.setText("");
         categoriaID=0;
     }
 
     private boolean isEmpty() {
-        if (txtCategoria.getText().equals("")) {
+        if (txtTipoFicha.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Llenar campos vacios.", "ALERTA", JOptionPane.WARNING_MESSAGE);
             return true;
         } else {

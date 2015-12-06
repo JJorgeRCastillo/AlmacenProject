@@ -40,6 +40,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         sbmUsuario = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         sbmUnidadMedida = new javax.swing.JMenuItem();
+        sbmTipoFicha = new javax.swing.JMenuItem();
         menProcesos = new javax.swing.JMenu();
         sbmDocEntrada = new javax.swing.JMenuItem();
         sbmDocSalida = new javax.swing.JMenuItem();
@@ -123,6 +124,14 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         menMantenedores.add(sbmUnidadMedida);
 
+        sbmTipoFicha.setText("Tipo Ficha");
+        sbmTipoFicha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sbmTipoFichaActionPerformed(evt);
+            }
+        });
+        menMantenedores.add(sbmTipoFicha);
+
         mbrGeneral.add(menMantenedores);
 
         menProcesos.setText("Documentos");
@@ -204,6 +213,12 @@ public class frmPrincipal extends javax.swing.JFrame {
         ventana.setVisible(true);
     }//GEN-LAST:event_sbmUnidadMedidaActionPerformed
 
+    private void sbmTipoFichaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmTipoFichaActionPerformed
+        frmTipoFicha ventana = new frmTipoFicha();
+        dskContenedor.add(ventana);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_sbmTipoFichaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane dskContenedor;
@@ -224,6 +239,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem sbmKardex;
     private javax.swing.JMenuItem sbmPorStock;
     private javax.swing.JMenuItem sbmProveedor;
+    private javax.swing.JMenuItem sbmTipoFicha;
     private javax.swing.JMenuItem sbmUnidadMedida;
     private javax.swing.JMenuItem sbmUsuario;
     // End of variables declaration//GEN-END:variables

@@ -30,7 +30,7 @@ public class ProveedorBL {
 
     public int insert(int modo, Proveedor objProveedor) {
         try {
-            return ProveedorDAO.instance.insert(modo, objProveedor);
+            return ProveedorDAO.getInstance().insert(modo, objProveedor);
         } catch (Exception e) {
             throw e;
         }
@@ -38,7 +38,7 @@ public class ProveedorBL {
 
     public boolean delete(int modo, Proveedor objProveedor) {
         try {
-            return ProveedorDAO.instance.delete(modo, objProveedor);
+            return ProveedorDAO.getInstance().delete(modo, objProveedor);
         } catch (Exception e) {
             throw e;
         }
@@ -46,7 +46,7 @@ public class ProveedorBL {
 
     public boolean update(int modo, Proveedor objProveedor) {
         try {
-            return ProveedorDAO.instance.update(modo, objProveedor);
+            return ProveedorDAO.getInstance().update(modo, objProveedor);
         } catch (Exception e) {
             throw e;
         }
@@ -54,7 +54,7 @@ public class ProveedorBL {
 
     public List<Proveedor> listAll() {
         try {
-            return ProveedorDAO.instance.listAll();
+            return ProveedorDAO.getInstance().listAll();
         } catch (Exception e) {
             throw e;
         }
@@ -62,7 +62,7 @@ public class ProveedorBL {
 
     public List<Proveedor> search(String descripcion) {
         try {
-            return ProveedorDAO.instance.search(descripcion);
+            return ProveedorDAO.getInstance().search(descripcion);
         } catch (Exception e) {
             throw e;
         }

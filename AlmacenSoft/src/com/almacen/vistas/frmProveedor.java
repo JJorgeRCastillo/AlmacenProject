@@ -5,6 +5,13 @@
  */
 package com.almacen.vistas;
 
+import com.almacen.entity.Proveedor;
+import com.almacen.logic.ProveedorBL;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import recursos.OptionValues;
+
 /**
  *
  * @author JorgePC
@@ -14,8 +21,15 @@ public class frmProveedor extends javax.swing.JInternalFrame {
     /**
      * Creates new form frmProveedor
      */
+    private List<Proveedor> listaProveedor;
+    private int proveedorID;
+
     public frmProveedor() {
         initComponents();
+        listarAll(1);
+
+        manageButtons(0);
+
     }
 
     /**
@@ -44,11 +58,14 @@ public class frmProveedor extends javax.swing.JInternalFrame {
         btnEliminar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        tgbBuscar = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtbProveedor = new javax.swing.JTable();
 
         jRadioButton1.setText("jRadioButton1");
 
+        setClosable(true);
+        setIconifiable(true);
         setTitle("MANTENEDOR PROVEEDOR");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
@@ -82,8 +99,18 @@ public class frmProveedor extends javax.swing.JInternalFrame {
         jLabel5.setText("Direccion:");
 
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +127,17 @@ public class frmProveedor extends javax.swing.JInternalFrame {
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        tgbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tgbBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -116,10 +154,12 @@ public class frmProveedor extends javax.swing.JInternalFrame {
                     .addComponent(txtRazonSocial)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtRUC, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tgbBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTelefono))
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtContacto)
                     .addComponent(txtDireccion)))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -141,14 +181,15 @@ public class frmProveedor extends javax.swing.JInternalFrame {
                     .addComponent(txtRazonSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtRUC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2))
+                    .addComponent(tgbBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
@@ -165,6 +206,11 @@ public class frmProveedor extends javax.swing.JInternalFrame {
                     .addComponent(btnCancelar)))
         );
 
+        jtbProveedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtbProveedorMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtbProveedor);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,7 +222,7 @@ public class frmProveedor extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1)
                         .addGap(6, 6, 6))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -187,7 +233,7 @@ public class frmProveedor extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -207,12 +253,110 @@ public class frmProveedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtContactoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        if (!isEmpty()) {
+            int rpta = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registro?",
+                    "ELIMINAR", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (rpta == JOptionPane.YES_OPTION) {
+                Proveedor objProveedor = new Proveedor();
+                objProveedor.setIdProveedor(proveedorID);
+                OptionValues mode = OptionValues.DELETE;
+                boolean result = ProveedorBL.getInstance().delete(mode.getValue(), objProveedor);
+                if (result) {
+                    listarAll(1);
+                    JOptionPane.showMessageDialog(null, "Se eliminó correctamente el proveedor.", null, JOptionPane.INFORMATION_MESSAGE);
+                    clearControls();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar el proveedor.", null, JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+        if (!isEmpty()) {
+
+            Proveedor objProveedor = new Proveedor();
+            objProveedor.setIdProveedor(0);
+            objProveedor.setRuc(txtRUC.getText());
+            objProveedor.setRazonSocial(txtRazonSocial.getText());
+            objProveedor.setDireccion(txtDireccion.getText());
+            objProveedor.setTelefono(txtTelefono.getText());
+            objProveedor.setNombreContacto(txtContacto.getText());
+            OptionValues mode = OptionValues.INSERT;
+            int result = ProveedorBL.getInstance().insert(mode.getValue(), objProveedor);
+            if (result > 0) {
+                listarAll(1);
+                JOptionPane.showMessageDialog(null, "Se registró correctamente el proveedor.", null, JOptionPane.INFORMATION_MESSAGE);
+                clearControls();
+            } else {
+                JOptionPane.showMessageDialog(null, "El proveedor ya existe .", null, JOptionPane.WARNING_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (!isEmpty()) {
+            int rpta = JOptionPane.showConfirmDialog(null, "¿Desea editar el registro?",
+                    "EDITAR", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (rpta == JOptionPane.YES_OPTION) {
+
+                Proveedor objProveedor = new Proveedor();
+                objProveedor.setIdProveedor(proveedorID);
+                objProveedor.setRuc(txtRUC.getText());
+                objProveedor.setRazonSocial(txtRazonSocial.getText());
+                objProveedor.setDireccion(txtDireccion.getText());
+                objProveedor.setTelefono(txtTelefono.getText());
+                objProveedor.setNombreContacto(txtContacto.getText());
+                OptionValues mode = OptionValues.UPDATE;
+
+                boolean result = ProveedorBL.getInstance().update(mode.getValue(), objProveedor);
+                if (result) {
+                    listarAll(1);
+                    JOptionPane.showMessageDialog(null, "Se Editó correctamente el proveedor.", null, JOptionPane.INFORMATION_MESSAGE);
+                    clearControls();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al editar el proveedor.", null, JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        manageButtons(1);
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        clearControls();
+        manageButtons(0);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void jtbProveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbProveedorMouseClicked
+        int i = jtbProveedor.getSelectedRow();
+        if (i != -1) {
+            manageButtons(2);
+            Proveedor objProveedor = new Proveedor();
+            objProveedor = listaProveedor.get(i);
+
+            proveedorID = objProveedor.getIdProveedor();
+            txtRUC.setText((String) jtbProveedor.getValueAt(i, 0));
+            txtRazonSocial.setText((String) jtbProveedor.getValueAt(i, 1));
+            txtDireccion.setText((String) jtbProveedor.getValueAt(i, 2));
+            txtTelefono.setText((String) jtbProveedor.getValueAt(i, 3));
+            txtContacto.setText((String) jtbProveedor.getValueAt(i, 4));
+        }
+    }//GEN-LAST:event_jtbProveedorMouseClicked
+
+    private void tgbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tgbBuscarActionPerformed
+       if(tgbBuscar.isSelected()){
+           tgbBuscar.setText("buscar");
+           txtRUC.setEnabled(true);
+           listarAll(2);
+           txtRUC.setText("");
+       }else{
+           tgbBuscar.setText("habilitar");
+           txtRUC.setEnabled(false);
+       }
+    }//GEN-LAST:event_tgbBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -230,10 +374,132 @@ public class frmProveedor extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtbProveedor;
+    private javax.swing.JToggleButton tgbBuscar;
     private javax.swing.JTextField txtContacto;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtRUC;
     private javax.swing.JTextField txtRazonSocial;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
+ private void listarAll(int accion) {
+
+     if(accion==1)
+        listaProveedor = ProveedorBL.getInstance().listAll();
+    else 
+         listaProveedor = ProveedorBL.getInstance().search(txtRUC.getText());
+     
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("RUC");
+        modelo.addColumn("RAZON SOCIAL");
+        modelo.addColumn("DIRECCION");
+        modelo.addColumn("TELEFONO");
+        modelo.addColumn("CONTACTO");
+        for (Proveedor proveedor : listaProveedor) {
+            modelo.addRow(new Object[]{
+                proveedor.getRuc(),
+                proveedor.getRazonSocial(),
+                proveedor.getDireccion(),
+                proveedor.getTelefono(),
+                proveedor.getNombreContacto(),
+                proveedor.isEstado() == true ? "Activo" : "Inactivo"
+            });
+        }
+        jtbProveedor.setModel(modelo);
+    }
+
+    public void limpiarJtable(DefaultTableModel objModelo) {
+        int filas = objModelo.getRowCount();
+        if (filas > 0) {
+            for (int i = 0; i < filas; i++) {
+                objModelo.removeRow(0);
+            }
+        }
+    }
+
+    private void buscarProveedor() {
+
+        listaProveedor = ProveedorBL.getInstance().search(txtRUC.getText());
+        DefaultTableModel modelo2 = new DefaultTableModel();
+        for (Proveedor proveedor : listaProveedor) {
+            modelo2.addRow(new Object[]{
+                proveedor.getRuc(),
+                proveedor.getRazonSocial(),
+                proveedor.getDireccion(),
+                proveedor.getTelefono(),
+                proveedor.getNombreContacto(),
+                proveedor.isEstado() == true ? "Activo" : "Inactivo"
+            });
+        }
+        jtbProveedor.setModel(modelo2);
+    }
+
+    private void manageButtons(int caso) {
+        switch (caso) {
+            //al iniciar el formulario
+            case 0:
+                btnNuevo.setEnabled(true);
+                btnGuardar.setEnabled(false);
+                btnEditar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                btnCancelar.setEnabled(false);
+                disableControls();
+                break;
+            //boton nuevo presionado  
+            case 1:
+                btnNuevo.setEnabled(false);
+                btnGuardar.setEnabled(true);
+                btnEditar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                btnCancelar.setEnabled(true);
+                enableControls();
+                break;
+            //cuando selecciona una fila del jtable
+            case 2:
+                btnNuevo.setEnabled(false);
+                btnGuardar.setEnabled(false);
+                btnEditar.setEnabled(true);
+                btnEliminar.setEnabled(true);
+                btnCancelar.setEnabled(true);
+                enableControls();
+                txtRUC.setEnabled(false);
+                break;
+
+        }
+
+    }
+
+    private void disableControls() {
+        txtRUC.setEnabled(false);
+        txtRazonSocial.setEnabled(false);
+        txtDireccion.setEnabled(false);
+        txtTelefono.setEnabled(false);
+        txtContacto.setEnabled(false);
+    }
+
+    private void enableControls() {
+        txtRUC.setEnabled(true);
+        txtRazonSocial.setEnabled(true);
+        txtDireccion.setEnabled(true);
+        txtTelefono.setEnabled(true);
+        txtContacto.setEnabled(true);
+    }
+
+    private void clearControls() {
+
+        txtRUC.setText("");
+        txtRazonSocial.setText("");
+        txtDireccion.setText("");
+        txtTelefono.setText("");
+        txtContacto.setText("");
+        proveedorID = 0;
+    }
+
+    private boolean isEmpty() {
+        if (txtRUC.getText().equals("") || txtRazonSocial.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Llenar campos vacios.", "ALERTA", JOptionPane.WARNING_MESSAGE);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
