@@ -198,7 +198,7 @@ public class frmUnidadMedida extends javax.swing.JInternalFrame {
                 llenarLista();
                 JOptionPane.showMessageDialog(this, "Se registro correctamente la unidad de medida.");
             } else {
-                JOptionPane.showMessageDialog(this, "La unidad de medida ya existe.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La unidad de medida ya existe.", "ALERTA", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Llenar campos vacíos.", "ALERTA", JOptionPane.WARNING_MESSAGE);
@@ -328,6 +328,7 @@ public class frmUnidadMedida extends javax.swing.JInternalFrame {
                 btnEditar.setEnabled(true);
                 btnEliminar.setEnabled(true);
                 btnCancelar.setEnabled(true);
+                btnGuardar.setEnabled(false); 
                 clearControls();
                 enableControls();
                 break;
