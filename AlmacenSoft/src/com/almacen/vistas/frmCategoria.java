@@ -179,10 +179,10 @@ public class frmCategoria extends javax.swing.JInternalFrame {
             int result = CategoriaBL.getInstance().insert(1, objCategoria);
             if (result > 0) {
                 listarAll();
-                JOptionPane.showMessageDialog(null, "Se registro correctamente.", null, JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Se registro correctamente la categoria.", null, JOptionPane.INFORMATION_MESSAGE);
                 clearControls();
             } else {
-                JOptionPane.showMessageDialog(null, "La categoria ya existe.", null, JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "La categoria ya existe .", null, JOptionPane.WARNING_MESSAGE);
             }
         }
 
@@ -190,18 +190,18 @@ public class frmCategoria extends javax.swing.JInternalFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         if (!isEmpty()) {
-            int rpta = JOptionPane.showConfirmDialog(null, "¿Desea eliminar registro?",
-                    "ELIMINAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (rpta == JOptionPane.OK_OPTION) {
+            int rpta = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registro?",
+                    "ELIMINAR", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (rpta == JOptionPane.YES_OPTION) {
                 Categoria objCategoria = new Categoria();
                 objCategoria.setIdCategoria(categoriaID);
                 boolean result = CategoriaBL.getInstance().delete(3, objCategoria);
                 if (result) {
                     listarAll();
-                    JOptionPane.showMessageDialog(null, "Se elimino correctamente .", null, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Se elimino correctamente la categoria.", null, JOptionPane.INFORMATION_MESSAGE);
                     clearControls();
                 } else {
-                    JOptionPane.showMessageDialog(null, "No se pudo elminar.", null, JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al eliminar la categoria.", null, JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
@@ -214,9 +214,9 @@ public class frmCategoria extends javax.swing.JInternalFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
 
         if (!isEmpty()) {
-            int rpta = JOptionPane.showConfirmDialog(null, "¿Desea editar registro?",
-                    "EDITAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (rpta == JOptionPane.OK_OPTION) {
+            int rpta = JOptionPane.showConfirmDialog(null, "¿Desea editar el registro?",
+                    "EDITAR", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (rpta == JOptionPane.YES_OPTION) {
 
                 Categoria objCategoria = new Categoria();
                 objCategoria.setIdCategoria(categoriaID);
@@ -225,10 +225,10 @@ public class frmCategoria extends javax.swing.JInternalFrame {
                 boolean result = CategoriaBL.getInstance().update(2, objCategoria);
                 if (result) {
                     listarAll();
-                    JOptionPane.showMessageDialog(null, "Se Edito correctamente.", null, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Se Edito correctamente la categoria.", null, JOptionPane.INFORMATION_MESSAGE);
                     clearControls();
                 } else {
-                    JOptionPane.showMessageDialog(null, "La categoria ya existe.", null, JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al editar la categoria.", null, JOptionPane.WARNING_MESSAGE);
                 }
             }
         }
