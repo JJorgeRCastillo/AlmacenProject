@@ -114,11 +114,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Nuevo"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnEditar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Editar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnEliminar">
           <Properties>
@@ -140,6 +146,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -151,6 +160,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTable" name="jtbCategoria">
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtbCategoriaMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

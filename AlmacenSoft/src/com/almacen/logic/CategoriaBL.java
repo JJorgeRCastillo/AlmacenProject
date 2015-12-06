@@ -29,7 +29,7 @@ public class CategoriaBL {
 
     public int insert(int modo, Categoria objCategoria) {
         try {
-            return CategoriaDAO.instance.insert(modo, objCategoria);
+            return CategoriaDAO.getInstance().insert(modo, objCategoria);
         } catch (Exception e) {
             throw e;
         }
@@ -37,7 +37,7 @@ public class CategoriaBL {
 
     public boolean delete(int modo, Categoria objCategoria) {
         try {
-            return CategoriaDAO.instance.delete(modo, objCategoria);
+            return CategoriaDAO.getInstance().delete(modo, objCategoria);
         } catch (Exception e) {
             throw e;
         }
@@ -45,7 +45,7 @@ public class CategoriaBL {
 
     public boolean update(int modo, Categoria objCategoria) {
         try {
-            return CategoriaDAO.instance.update(modo, objCategoria);
+            return CategoriaDAO.getInstance().update(modo, objCategoria);
         } catch (Exception e) {
             throw e;
         }
@@ -53,7 +53,7 @@ public class CategoriaBL {
 
     public List<Categoria> listAll() {
         try {
-            return CategoriaDAO.instance.listAll();
+            return CategoriaDAO.getInstance().listAll();
         } catch (Exception e) {
             throw e;
         }
@@ -61,7 +61,7 @@ public class CategoriaBL {
 
     public List<Categoria> search(String descripcion) {
         try {
-            return CategoriaDAO.instance.search(descripcion);
+            return CategoriaDAO.getInstance().search(descripcion);
         } catch (Exception e) {
             throw e;
         }
