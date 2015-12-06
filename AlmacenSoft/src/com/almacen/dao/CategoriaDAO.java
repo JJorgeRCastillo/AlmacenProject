@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class CategoriaDAO implements ICategoria {
 
-    public static CategoriaDAO instance = null;
+    private static CategoriaDAO instance = null;
 
     private CategoriaDAO() {
     }

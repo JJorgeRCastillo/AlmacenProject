@@ -189,8 +189,10 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void sbmProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmProveedorActionPerformed
         frmProveedor ventana = new frmProveedor();
-        dskContenedor.add(ventana);
-        ventana.setVisible(true);
+        if (!Util.getInstance().isJInternalFrameOpen(ventana, dskContenedor)) {
+            dskContenedor.add(ventana);
+            ventana.setVisible(true);
+        }
     }//GEN-LAST:event_sbmProveedorActionPerformed
 
     private void sbmUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmUsuarioActionPerformed
@@ -203,14 +205,18 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         frmCategoria ventana = new frmCategoria();
-        dskContenedor.add(ventana);
-        ventana.setVisible(true);
+        if (!Util.getInstance().isJInternalFrameOpen(ventana, dskContenedor)) {
+            dskContenedor.add(ventana);
+            ventana.setVisible(true);
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void sbmUnidadMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmUnidadMedidaActionPerformed
         frmUnidadMedida ventana = new frmUnidadMedida();
-        dskContenedor.add(ventana);
-        ventana.setVisible(true);
+        if (!Util.getInstance().isJInternalFrameOpen(ventana, dskContenedor)) {
+            dskContenedor.add(ventana);
+            ventana.setVisible(true);
+        }
     }//GEN-LAST:event_sbmUnidadMedidaActionPerformed
 
     private void sbmTipoFichaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmTipoFichaActionPerformed
