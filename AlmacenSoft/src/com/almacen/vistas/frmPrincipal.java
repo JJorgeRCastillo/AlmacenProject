@@ -152,6 +152,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         menMovimientos.setText("Movimientos");
 
         sbmKardex.setText("Kardex");
+        sbmKardex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sbmKardexActionPerformed(evt);
+            }
+        });
         menMovimientos.add(sbmKardex);
 
         mbrGeneral.add(menMovimientos);
@@ -224,6 +229,14 @@ public class frmPrincipal extends javax.swing.JFrame {
         dskContenedor.add(ventana);
         ventana.setVisible(true);
     }//GEN-LAST:event_sbmTipoFichaActionPerformed
+
+    private void sbmKardexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmKardexActionPerformed
+        frmKardex ventana = new frmKardex();
+        if(!Util.getInstance().isJInternalFrameOpen(ventana, dskContenedor)) {
+            dskContenedor.add(ventana);
+            ventana.setVisible(true); 
+        }
+    }//GEN-LAST:event_sbmKardexActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
