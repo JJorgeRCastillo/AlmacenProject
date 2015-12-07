@@ -5,6 +5,15 @@
  */
 package com.almacen.vistas;
 
+import com.almacen.entity.DetalleKardex;
+import com.almacen.entity.ListaKardex;
+import com.almacen.logic.DetalleKardexBL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author JOSEPH
@@ -14,6 +23,9 @@ public class frmKardex extends javax.swing.JInternalFrame {
     /**
      * Creates new form frmKardex
      */
+    private List<ListaKardex> listKardex;
+    private int productoID;
+
     public frmKardex() {
         initComponents();
     }
@@ -47,8 +59,8 @@ public class frmKardex extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        dtcDesde = new com.toedter.calendar.JDateChooser();
+        dtcHasta = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
         setIconifiable(true);
@@ -195,11 +207,11 @@ public class frmKardex extends javax.swing.JInternalFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(6, 6, 6)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(dtcHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(dtcDesde, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -208,11 +220,11 @@ public class frmKardex extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dtcDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dtcHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -253,15 +265,18 @@ public class frmKardex extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCodigoProductoActionPerformed
 
     private void btnMostrarMovimientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarMovimientosActionPerformed
-        // TODO add your handling code here:
+
+        listarKardexSalidas(1, obtenerFechaDesde(),obtenerFechaHasta());
+        
+        listarKardexEntradas(1, obtenerFechaDesde(), obtenerFechaHasta());
     }//GEN-LAST:event_btnMostrarMovimientosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarProducto;
     private javax.swing.JButton btnMostrarMovimientos;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser dtcDesde;
+    private com.toedter.calendar.JDateChooser dtcHasta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -281,4 +296,78 @@ public class frmKardex extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNombreProducto;
     private javax.swing.JTextField txtUnidadMedidaProd;
     // End of variables declaration//GEN-END:variables
+
+    private void listarKardexSalidas(int idproducto, String desde, String hasta) {
+        listKardex = DetalleKardexBL.getInstance().listKardexSalida(idproducto, desde, hasta);
+
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("FECHA");
+        modelo.addColumn("DOCUMENTO");
+        modelo.addColumn("SERIE");
+        modelo.addColumn("CODIGO");
+        modelo.addColumn("RAZON SOCIAL");
+        modelo.addColumn("SALIDA");
+        modelo.addColumn("STOCK");
+        modelo.addColumn("PRECIO");
+        for (ListaKardex listakardex : listKardex) {
+            modelo.addRow(new Object[]{
+                listakardex.getFechaRegistro(),
+                listakardex.getTipoDocumento(),
+                listakardex.getSerie(),
+                listakardex.getCodigo(),
+                listakardex.getRazonSocial(),
+                listakardex.getCantidad(),
+                listakardex.getStockActual(),
+                listakardex.getPrecio()});
+        }
+        jtbSalidas.setModel(modelo);
+    }
+    
+    private void listarKardexEntradas(int idproducto, String desde, String hasta) {
+        listKardex = DetalleKardexBL.getInstance().listKardexEntrada(idproducto, desde, hasta);
+
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("FECHA");
+        modelo.addColumn("DOCUMENTO");
+        modelo.addColumn("SERIE");
+        modelo.addColumn("CODIGO");
+        modelo.addColumn("RAZON SOCIAL");
+        modelo.addColumn("ENTRADA");
+        modelo.addColumn("STOCK");
+        modelo.addColumn("PRECIO");
+        for (ListaKardex listakardex : listKardex) {
+            modelo.addRow(new Object[]{
+                listakardex.getFechaRegistro(),
+                listakardex.getTipoDocumento(),
+                listakardex.getSerie(),
+                listakardex.getCodigo(),
+                listakardex.getRazonSocial(),
+                listakardex.getCantidad(),
+                listakardex.getStockActual(),
+                listakardex.getPrecio()});
+        }
+        jtbEntradas.setModel(modelo);
+    }
+    private String obtenerFechaDesde() {
+        JLabel fechaDesde;
+        Date date = dtcDesde.getDate();
+        if (date != null) {
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            fechaDesde = new JLabel();
+            fechaDesde.setText(formato.format(date));
+            return fechaDesde.getText();
+        }
+        return "";
+    }
+    private String obtenerFechaHasta() {
+        JLabel fechaHasta;
+        Date date = dtcHasta.getDate();
+        if (date != null) {
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            fechaHasta = new JLabel();
+            fechaHasta.setText(formato.format(date));
+            return fechaHasta.getText();
+        }
+        return "";
+    }
 }
