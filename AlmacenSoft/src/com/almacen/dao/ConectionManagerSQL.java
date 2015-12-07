@@ -13,7 +13,7 @@ public class ConectionManagerSQL {
         Connection con = null;
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "databaseName=AlmacenDB", "sa", "123456");
+            con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "databaseName=AlmacenDB", "almacen", "123almacen");
         }catch(ClassNotFoundException | SQLException ex){
             ex.printStackTrace();
         }
