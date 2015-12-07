@@ -22,4 +22,5 @@ public interface IProveedor {
     public boolean update(int modo, Proveedor objProveedor);
     public List<Proveedor> listAll();
     public List<Proveedor> search(String descripcion);
+    public Proveedor searchByRuc(String ruc);
 }

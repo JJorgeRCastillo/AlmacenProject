@@ -20,5 +20,5 @@ public interface IProducto {
     public boolean update(int modo, Producto objProducto);
     public List<Producto> listAll();
     public List<Producto> search(String descripcion);
-
+    public Producto searchByCodigo(String codigo);
 }

@@ -6,7 +6,6 @@
 package com.almacen.dao;
 
 import com.almacen.contratos.IProveedor;
-import com.almacen.entity.Categoria;
 import com.almacen.entity.Proveedor;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -20,7 +19,7 @@ import java.util.List;
  */
 public class ProveedorDAO implements IProveedor {
 
-    public static ProveedorDAO instance = null;
+    private static ProveedorDAO instance = null;
 
     private ProveedorDAO() {
     }
@@ -150,6 +149,33 @@ public class ProveedorDAO implements IProveedor {
             ex.printStackTrace();
         }
         return lstProveedor;
+    }
+
+    @Override
+    public Proveedor searchByRuc(String ruc) {
+        Connection con = ConectionManagerSQL.getConnection();
+        Proveedor objProveedor = null;
+        try {
+            CallableStatement cstm = con.prepareCall("{call sp_BuscarProveedorByRuc(?)}");
+            cstm.setString(1, ruc);
+
+            ResultSet rs = cstm.executeQuery();
+
+            if (rs.next()) {
+                objProveedor = new Proveedor(rs.getInt(1), rs.getString(2),
+                        rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6),
+                        true);
+            }
+            
+            cstm.close();
+            con.close();
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return objProveedor;
     }
 
 }

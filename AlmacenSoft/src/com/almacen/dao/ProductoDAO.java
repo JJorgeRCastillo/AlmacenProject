@@ -60,29 +60,29 @@ public class ProductoDAO implements IProducto {
     public boolean delete(int modo, Producto objProducto) {
         Connection con = ConectionManagerSQL.getConnection();
         boolean ok = false;
-        try{
+        try {
             CallableStatement cstm = con.prepareCall("{call sp_CRUDProducto(?,?,?,?,?,?,?,?,?,?)}");
-             cstm.setInt(1, modo);
+            cstm.setInt(1, modo);
             cstm.setInt(2, objProducto.getIdProducto());
             cstm.setInt(3, 0);
             cstm.setInt(4, 0);
             cstm.setString(5, "");
-            cstm.setString(6,"");
-            cstm.setInt(7,0);
+            cstm.setString(6, "");
+            cstm.setInt(7, 0);
             cstm.setInt(8, 0);
             cstm.setInt(9, 0);
             cstm.setInt(10, 0);
-            
+
             int result = cstm.executeUpdate();
-            
-            if(result > 0){
+
+            if (result > 0) {
                 ok = true;
             }
-            
+
             cstm.close();
             con.close();
-            
-        }catch(Exception ex){
+
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return ok;
@@ -92,29 +92,29 @@ public class ProductoDAO implements IProducto {
     public boolean update(int modo, Producto objProducto) {
         Connection con = ConectionManagerSQL.getConnection();
         boolean ok = false;
-        try{
+        try {
             CallableStatement cstm = con.prepareCall("{call sp_CRUDProducto(?,?,?,?,?,?,?,?,?,?)}");
             cstm.setInt(1, modo);
             cstm.setInt(2, objProducto.getIdProducto());
             cstm.setInt(3, objProducto.getObjCategoria().getIdCategoria());
             cstm.setInt(4, objProducto.getObjUnidadMedida().getIdUnidadMedida());
             cstm.setString(5, objProducto.getCodigo());
-            cstm.setString(6,objProducto.getNombre());
+            cstm.setString(6, objProducto.getNombre());
             cstm.setInt(7, objProducto.getStock());
             cstm.setInt(8, objProducto.getValorMaximo());
             cstm.setInt(9, objProducto.getValorMedio());
             cstm.setInt(10, objProducto.getValorMinimo());
-            
+
             int result = cstm.executeUpdate();
-            
-            if(result > 0){
+
+            if (result > 0) {
                 ok = true;
             }
-            
-           cstm.close();
-           con.close();
-        
-        }catch(Exception ex){
+
+            cstm.close();
+            con.close();
+
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return ok;
@@ -129,12 +129,12 @@ public class ProductoDAO implements IProducto {
             ResultSet rs = cstm.executeQuery();
             while (rs.next()) {
                 Producto objProducto = new Producto(
-                        rs.getInt(1), rs.getString(7), 
-                        rs.getString(6), rs.getInt(8), 
+                        rs.getInt(1), rs.getString(7),
+                        rs.getString(6), rs.getInt(8),
                         rs.getInt(9), rs.getInt(10),
                         rs.getInt(11), new UnidadMedida(rs.getInt(4), rs.getString(5), "", true),
-                        new Categoria(rs.getInt(2), rs.getString(3), true), true); 
-            
+                        new Categoria(rs.getInt(2), rs.getString(3), true), true);
+
                 lstProductos.add(objProducto);
             }
         } catch (Exception ex) {
@@ -153,18 +153,38 @@ public class ProductoDAO implements IProducto {
             ResultSet rs = cstm.executeQuery();
             while (rs.next()) {
                 Producto objProducto = new Producto(
-                        rs.getInt(1), rs.getString(7), 
-                        rs.getString(6), rs.getInt(8), 
+                        rs.getInt(1), rs.getString(7),
+                        rs.getString(6), rs.getInt(8),
                         rs.getInt(9), rs.getInt(10),
                         rs.getInt(11), new UnidadMedida(rs.getInt(4), rs.getString(5), "", true),
-                        new Categoria(rs.getInt(2), rs.getString(3), true), true); 
-            
+                        new Categoria(rs.getInt(2), rs.getString(3), true), true);
+
                 lstProductos.add(objProducto);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return lstProductos;
+    }
+
+    @Override
+    public Producto searchByCodigo(String codigo) {
+        Connection con = ConectionManagerSQL.getConnection();
+        Producto objProducto = null;
+        try {
+            CallableStatement cstm = con.prepareCall("{call sp_BuscarProductoByCode(?)}");
+            cstm.setString(1, codigo);
+
+            ResultSet rs = cstm.executeQuery();
+
+            if (rs.next()) {
+                objProducto = new Producto(rs.getInt(1), rs.getString(3), rs.getString(2), rs.getInt(4), 0, 0, 0, new UnidadMedida(), new Categoria(), rs.getBoolean(5));
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return objProducto;
     }
 
 }

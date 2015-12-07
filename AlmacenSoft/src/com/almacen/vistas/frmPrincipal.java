@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.almacen.vistas;
 
 import com.almacen.entity.Usuario;
@@ -219,7 +215,11 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_sbmUsuarioActionPerformed
 
     private void sbmDocEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmDocEntradaActionPerformed
-
+        frmFicha ventana = new frmFicha();
+        if (!Util.getInstance().isJInternalFrameOpen(ventana, dskContenedor)) {
+            dskContenedor.add(ventana);
+            ventana.setVisible(true);
+        }
     }//GEN-LAST:event_sbmDocEntradaActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed

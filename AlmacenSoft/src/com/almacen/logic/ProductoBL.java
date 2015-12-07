@@ -14,7 +14,8 @@ import java.util.List;
  * @author JOSEPH
  */
 public class ProductoBL {
-     private static ProductoBL instance = null;
+
+    private static ProductoBL instance = null;
 
     private ProductoBL() {
     }
@@ -65,5 +66,12 @@ public class ProductoBL {
             throw e;
         }
     }
-   
+
+    public Producto searchByCodigo(String codigo) {
+        try {
+            return ProductoDAO.getInstance().searchByCodigo(codigo);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }

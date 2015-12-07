@@ -22,6 +22,8 @@ public class Producto {
     private Categoria objCategoria;    
     private boolean estado;
     
+    private float precio; // variable solo para la parte del registro de ficha
+    
     public Producto(){
         
     }
@@ -117,6 +119,14 @@ public class Producto {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(float precio) {
+        this.precio = precio;
     }
 
     

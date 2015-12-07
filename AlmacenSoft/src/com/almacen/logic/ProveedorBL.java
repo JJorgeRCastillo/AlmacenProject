@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class ProveedorBL {
 
-    public static ProveedorBL instance = null;
+    private static ProveedorBL instance = null;
 
     private ProveedorBL() {
     }
@@ -65,6 +65,14 @@ public class ProveedorBL {
             return ProveedorDAO.getInstance().search(descripcion);
         } catch (Exception e) {
             throw e;
+        }
+    }
+
+    public Proveedor searchByRuc(String ruc) {
+        try {
+            return ProveedorDAO.getInstance().searchByRuc(ruc);
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 }

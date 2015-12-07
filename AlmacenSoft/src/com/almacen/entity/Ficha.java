@@ -26,6 +26,7 @@ public class Ficha {
     private String documentoReferencia; // numero de serie y correlativo de la boleta o factura
     private float montoTotal;
     private boolean estado;
+    private String movimiento; // solo para saber si es entrada o salida
     private List<DetalleFicha> lstDetalleFicha;
     
     public Ficha(){   
@@ -33,7 +34,7 @@ public class Ficha {
     }
     
     public Ficha(int idFicha, TipoFicha objTipoFicha, Proveedor objProveedor, String serie, String codigo, Date fechaEmision,
-            Date fechaRegistro, String tipoPago, String documentoReferencia, float montoTotal, boolean estado, List<DetalleFicha> lstDetalleFicha){
+            Date fechaRegistro, String tipoPago, String documentoReferencia, float montoTotal, boolean estado, String movimiento, List<DetalleFicha> lstDetalleFicha){
         this.idFicha = idFicha;
         this.objTipoFicha = objTipoFicha;
         this.objProveedor = objProveedor;
@@ -45,6 +46,7 @@ public class Ficha {
         this.documentoReferencia = documentoReferencia;
         this.montoTotal = montoTotal;
         this.estado = estado;
+        this.movimiento = movimiento;
         this.lstDetalleFicha = lstDetalleFicha;
     }
 
@@ -142,6 +144,14 @@ public class Ficha {
 
     public void setLstDetalleFicha(List<DetalleFicha> lstDetalleFicha) {
         this.lstDetalleFicha = lstDetalleFicha;
+    }
+
+    public String getMovimiento() {
+        return movimiento;
+    }
+
+    public void setMovimiento(String movimiento) {
+        this.movimiento = movimiento;
     }
     
 }
