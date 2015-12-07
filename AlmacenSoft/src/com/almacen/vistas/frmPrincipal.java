@@ -5,6 +5,7 @@
  */
 package com.almacen.vistas;
 
+import com.almacen.entity.Usuario;
 import recursos.Util;
 
 /**
@@ -12,10 +13,13 @@ import recursos.Util;
  * @author JorgePC
  */
 public class frmPrincipal extends javax.swing.JFrame {
-
-    public frmPrincipal() {
+    
+    private Usuario objUsuario;
+    public frmPrincipal(Usuario objUsuario) {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
+        this.objUsuario = objUsuario;
+        lblUser.setText(objUsuario.getUsuario().toUpperCase());
     }
 
     /**
@@ -33,6 +37,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jFrame1 = new javax.swing.JFrame();
         dskContenedor = new javax.swing.JDesktopPane();
+        lblUser = new javax.swing.JLabel();
         mbrGeneral = new javax.swing.JMenuBar();
         menMantenedores = new javax.swing.JMenu();
         sbmCategoria = new javax.swing.JMenuItem();
@@ -71,16 +76,25 @@ public class frmPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SISTEMA DE ALMACÉN V.1.0");
 
+        lblUser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout dskContenedorLayout = new javax.swing.GroupLayout(dskContenedor);
         dskContenedor.setLayout(dskContenedorLayout);
         dskContenedorLayout.setHorizontalGroup(
             dskContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 465, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskContenedorLayout.createSequentialGroup()
+                .addContainerGap(455, Short.MAX_VALUE)
+                .addComponent(lblUser)
+                .addContainerGap())
         );
         dskContenedorLayout.setVerticalGroup(
             dskContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 270, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dskContenedorLayout.createSequentialGroup()
+                .addContainerGap(259, Short.MAX_VALUE)
+                .addComponent(lblUser)
+                .addContainerGap())
         );
+        dskContenedor.setLayer(lblUser, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         menMantenedores.setText("Mantenedores");
 
@@ -247,6 +261,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JLabel lblUser;
     private javax.swing.JMenuBar mbrGeneral;
     private javax.swing.JMenu menConsultas;
     private javax.swing.JMenu menMantenedores;

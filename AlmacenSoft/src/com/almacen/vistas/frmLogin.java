@@ -5,6 +5,9 @@
  */
 package com.almacen.vistas;
 
+import com.almacen.entity.Usuario;
+import com.almacen.logic.UsuarioBL;
+import javax.swing.JOptionPane;
 import org.jvnet.substance.SubstanceLookAndFeel;
 
 /**
@@ -18,7 +21,7 @@ public class frmLogin extends javax.swing.JFrame {
      */
     public frmLogin() {
         initComponents();
-        setLocationRelativeTo(null); 
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -130,9 +133,18 @@ public class frmLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        frmPrincipal ventana = new frmPrincipal();
-        ventana.setVisible(true); 
-        this.dispose();
+        if (!txtUsuario.getText().equals("") && !txtClave.getText().equals("")) {
+            Usuario objUsuario = UsuarioBL.getInstance().verficarAcceso(txtUsuario.getText(), txtClave.getText());
+            if (objUsuario != null) {
+                   frmPrincipal ventana = new frmPrincipal(objUsuario);
+                   ventana.setVisible(true);
+                   this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "El usuario no exite.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario y/o clave incorrecta.", "ALERTA", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

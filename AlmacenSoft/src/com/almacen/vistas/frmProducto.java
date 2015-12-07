@@ -523,10 +523,12 @@ public class frmProducto extends javax.swing.JInternalFrame {
 
     private void initComboBox() {
         jtbBuscar.setText("Habilitar");
-        objCategoria = new Categoria();
-        objCategoria = lstCategoria.get(cboCategoria.getSelectedIndex());
-        objUnidadMedida = new UnidadMedida();
-        objUnidadMedida = lstUnidadMedida.get(cboUnidadMedida.getSelectedIndex());
+        if (cboCategoria.getItemCount() > 0 && cboUnidadMedida.getItemCount() > 0) {
+            objCategoria = new Categoria();
+            objCategoria = lstCategoria.get(cboCategoria.getSelectedIndex());
+            objUnidadMedida = new UnidadMedida();
+            objUnidadMedida = lstUnidadMedida.get(cboUnidadMedida.getSelectedIndex());
+        }
     }
 
     private boolean isEmpty() {
