@@ -10,6 +10,7 @@ import com.almacen.entity.DetalleFicha;
 import com.almacen.entity.Ficha;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -53,13 +54,14 @@ public class FichaDAO implements IFicha {
         Ficha temFicha = null;
         int resultado = 0;
         try {
-            CallableStatement cstm = con.prepareCall("{call sp_RegistrarFicha(?,?,?,?,?,?,?,?,?,?,?)}");
+            CallableStatement cstm = con.prepareCall("{call sp_RegistrarFicha(?,?,?,?,?,?,?,?,?,?)}");
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
             cstm.registerOutParameter(1, java.sql.Types.INTEGER);
             cstm.setInt(2, objFicha.getObjTipoFicha().getIdTipoFicha());
             cstm.setInt(3, objFicha.getObjProveedor().getIdProveedor());
             cstm.setString(4, objFicha.getSerie());
             cstm.setString(5, objFicha.getCodigo());
-            cstm.setString(6, objFicha.getFechaEmision().toString());
+            cstm.setString(6, formato.format(objFicha.getFechaEmision()));
             cstm.setString(7, objFicha.getTipoPago());
             cstm.setString(8, objFicha.getDocumentoReferencia());
             cstm.setFloat(9, objFicha.getMontoTotal());
@@ -88,8 +90,8 @@ public class FichaDAO implements IFicha {
                 CallableStatement cstm = con.prepareCall("{call sp_RegistrarDetalleFicha(?,?,?,?)}");
                 cstm.setInt(1, objFicha.getIdFicha());
                 cstm.setInt(2, o.getObjProducto().getIdProducto());
-                cstm.setInt(3, o.getObjProducto().getStock());
-                cstm.setFloat(4, o.getObjProducto().getPrecio());
+                cstm.setInt(3, o.getCantidad()); 
+                cstm.setFloat(4, o.getPrecio());
 
                 cstm.executeUpdate();
                 cstm.close();

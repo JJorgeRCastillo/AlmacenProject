@@ -1,13 +1,24 @@
 package com.almacen.vistas;
 
+import com.almacen.entity.DetalleFicha;
+import com.almacen.entity.Ficha;
 import com.almacen.entity.Producto;
 import com.almacen.entity.Proveedor;
+import com.almacen.entity.TipoFicha;
+import com.almacen.logic.FichaBL;
 import com.almacen.logic.ProductoBL;
 import com.almacen.logic.ProveedorBL;
+import com.almacen.logic.TipoFichaBL;
+import java.awt.event.KeyEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,11 +28,20 @@ public class frmFicha extends javax.swing.JInternalFrame {
 
     private Proveedor objProveedor;
     private Producto objProducto;
+    List<DetalleFicha> lstDetalleFicha = new ArrayList<>();
+    List<TipoFicha> lstTipoFicha = new ArrayList<>();
+    private String movi;
+    private float total;
+    private float totalIGV;
 
-    public frmFicha() {
+    public frmFicha(String movimiento) {
         initComponents();
         initControls();
-
+        llenarTipoDocumento();
+        movi = movimiento;
+        txtIGV.setText("0.18");
+        total = 0.0f;
+        totalIGV = 0.0f;
     }
 
     /**
@@ -69,7 +89,6 @@ public class frmFicha extends javax.swing.JInternalFrame {
         txtValorVenta = new javax.swing.JTextField();
         txtIGV = new javax.swing.JTextField();
         txtValorNeto = new javax.swing.JTextField();
-        lblDescripcionMonto = new javax.swing.JLabel();
         btnGrabar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
@@ -79,7 +98,6 @@ public class frmFicha extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
 
-        cboTipoDoc.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "FACTURA", "GUIA REMISION" }));
         cboTipoDoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboTipoDocActionPerformed(evt);
@@ -128,9 +146,17 @@ public class frmFicha extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Documento Referencia:");
 
+        txtFechaEmision.setDateFormatString("yyyy-MM-dd");
+
         jLabel13.setText("Cantidad:");
 
         jLabel14.setText("Precio:");
+
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
 
         btnAgregar.setText("AGREGAR");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -265,6 +291,14 @@ public class frmFicha extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        jtbDetalleficha.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Producto", "Cantidad", "Precio Unitario", "SubTotal"
+            }
+        ));
         jScrollPane1.setViewportView(jtbDetalleficha);
 
         jLabel10.setText("VALOR VENTA:");
@@ -278,9 +312,6 @@ public class frmFicha extends javax.swing.JInternalFrame {
                 txtValorVentaActionPerformed(evt);
             }
         });
-
-        lblDescripcionMonto.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        lblDescripcionMonto.setText("SON: MILQUINIENTOS CINCUENTA NUEVOS SOLES Y 54/100 NUEVOS SOLES");
 
         btnGrabar.setText("GRABAR");
         btnGrabar.addActionListener(new java.awt.event.ActionListener() {
@@ -301,13 +332,10 @@ public class frmFicha extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnGrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblDescripcionMonto))
+                .addGap(127, 127, 127)
+                .addComponent(btnGrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -335,11 +363,10 @@ public class frmFicha extends javax.swing.JInternalFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(txtValorVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDescripcionMonto))
+                    .addComponent(txtValorVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -359,11 +386,42 @@ public class frmFicha extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtValorVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorVentaActionPerformed
-        // TODO add your handling code here:
+        // TODO add your  code here:
     }//GEN-LAST:event_txtValorVentaActionPerformed
 
     private void btnGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrabarActionPerformed
+        if (!isEmpty()) {
+            if (lstDetalleFicha.size() > 0) {
+                try {
+                    Ficha objFicha = new Ficha();
+                    objFicha.setObjTipoFicha(new TipoFicha(lstTipoFicha.get(cboTipoDoc.getSelectedIndex()).getIdTipoFicha(), "", true));
+                    objFicha.setObjProveedor(objProveedor);
+                    objFicha.setSerie(txtSerie.getText());
+                    objFicha.setCodigo(txtCorrelativo.getText());
+                    objFicha.setFechaEmision(obtenerFecha());
+                    System.out.println(cboTipoPago.getSelectedItem().toString());
+                    System.out.println(obtenerFechaString());
+                    objFicha.setTipoPago(cboTipoPago.getSelectedItem().toString());
+                    objFicha.setDocumentoReferencia(txtDocumentoReferencia.getText());
+                    objFicha.setMontoTotal(Float.parseFloat(txtValorNeto.getText()));
+                    objFicha.setMovimiento(movi);
+                    objFicha.setLstDetalleFicha(lstDetalleFicha);
 
+                    int result = FichaBL.getInstance().insert(objFicha);
+
+                    if (result > 0) {
+                        JOptionPane.showMessageDialog(this, "Ficha agregada correctamente.");
+                    }
+
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No se puede registrar una ficha sin productos", "ALERTA", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Llenar campos vacíos.", "ALERTA", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnGrabarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -379,6 +437,7 @@ public class frmFicha extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cboTipoDocActionPerformed
 
     private void btnBuscarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProveedorActionPerformed
+
         if (!txtRUC.getText().equals("")) {
             objProveedor = ProveedorBL.getInstance().searchByRuc(txtRUC.getText());
             if (objProveedor != null) {
@@ -408,11 +467,45 @@ public class frmFicha extends javax.swing.JInternalFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if (!txtNombreProd.getText().equals("") && !txtNombreProd.getText().equals("") && !txtCantidad.getText().equals("")) {
+            if (objProducto != null) {
+                DetalleFicha objDetalleFicha = new DetalleFicha(0, new Ficha(), objProducto, Integer.parseInt(txtCantidad.getText()), Float.parseFloat(txtPrecio.getText()));
+
+                ((DefaultTableModel) jtbDetalleficha.getModel()).addRow(new Object[]{
+                    objProducto.getNombre(),
+                    txtCantidad.getText(),
+                    txtPrecio.getText(),
+                    Integer.parseInt(txtCantidad.getText()) * Float.parseFloat(txtPrecio.getText())
+                });
+
+                lstDetalleFicha.add(objDetalleFicha);
+                clearProduct();
+                objProducto = null;
+
+                // calculo 
+                total += (Integer.parseInt(txtCantidad.getText()) * Float.parseFloat(txtPrecio.getText()));
+                txtValorVenta.setText(total + "");
+                totalIGV = total + (total * 0.18f);
+                txtValorNeto.setText(totalIGV + "");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Buscar un producto", "ALERTA", JOptionPane.WARNING_MESSAGE);
+            }
 
         } else {
             JOptionPane.showMessageDialog(this, "Campos requeridos vacíos", "ALERTA", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        char c = evt.getKeyChar();
+        if (((c < '0') || (c > '9'))
+                && (c != KeyEvent.VK_BACK_SPACE) && (c != '.')) {
+            evt.consume();
+        }
+        if (c == '.' && txtPrecio.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPrecioKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -441,7 +534,6 @@ public class frmFicha extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtbDetalleficha;
-    private javax.swing.JLabel lblDescripcionMonto;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCodigoProd;
     private javax.swing.JTextField txtCorrelativo;
@@ -457,6 +549,16 @@ public class frmFicha extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtValorVenta;
     // End of variables declaration//GEN-END:variables
 
+    private void llenarTipoDocumento() {
+        lstTipoFicha = TipoFichaBL.getInstance().listAll();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        for (TipoFicha tf : lstTipoFicha) {
+            modelo.addElement(tf.getDescripcion());
+        }
+
+        cboTipoDoc.setModel(modelo);
+    }
+
     private void initControls() {
         txtRazonSocial.setEnabled(false);
         txtNombreProd.setEnabled(false);
@@ -468,13 +570,27 @@ public class frmFicha extends javax.swing.JInternalFrame {
 
     private boolean isEmpty() {
         return txtSerie.getText().equals("") || txtCorrelativo.getText().equals("")
-                || obtenerFecha().equals("") || txtDocumentoReferencia.getText().equals("")
-                || txtRazonSocial.getText().equals("") || txtNombreProd.getText().equals("");
+                || obtenerFechaString().equals("") || txtDocumentoReferencia.getText().equals("")
+                || txtRazonSocial.getText().equals("");
     }
 
-    private String obtenerFecha() {
+    private Date obtenerFecha() throws ParseException {
         JLabel fecha;
         Date date = txtFechaEmision.getDate();
+        Date fec;
+        if (date != null) {
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            fecha = new JLabel();
+            fecha.setText(formato.format(date));
+            fec = formato.parse(fecha.getText());
+        }
+        return new Date();
+    }
+
+    private String obtenerFechaString() {
+        JLabel fecha;
+        Date date = txtFechaEmision.getDate();
+        Date fec;
         if (date != null) {
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
             fecha = new JLabel();
@@ -482,5 +598,15 @@ public class frmFicha extends javax.swing.JInternalFrame {
             return fecha.getText();
         }
         return "";
+    }
+
+    private void clearProduct() {
+        txtCodigoProd.setText("");
+        txtNombreProd.setText("");
+    }
+
+    private float calcularSubTotal() {
+
+        return 0.0f;
     }
 }

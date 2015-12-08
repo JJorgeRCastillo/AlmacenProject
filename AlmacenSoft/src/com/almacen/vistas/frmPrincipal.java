@@ -1,4 +1,3 @@
-
 package com.almacen.vistas;
 
 import com.almacen.entity.Usuario;
@@ -9,8 +8,9 @@ import recursos.Util;
  * @author JorgePC
  */
 public class frmPrincipal extends javax.swing.JFrame {
-    
+
     private Usuario objUsuario;
+
     public frmPrincipal(Usuario objUsuario) {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);
@@ -155,6 +155,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         menProcesos.add(sbmDocEntrada);
 
         sbmDocSalida.setText("Documento Salida");
+        sbmDocSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sbmDocSalidaActionPerformed(evt);
+            }
+        });
         menProcesos.add(sbmDocSalida);
 
         mbrGeneral.add(menProcesos);
@@ -215,7 +220,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_sbmUsuarioActionPerformed
 
     private void sbmDocEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmDocEntradaActionPerformed
-        frmFicha ventana = new frmFicha();
+        frmFicha ventana = new frmFicha("E");
         if (!Util.getInstance().isJInternalFrameOpen(ventana, dskContenedor)) {
             dskContenedor.add(ventana);
             ventana.setVisible(true);
@@ -246,11 +251,19 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void sbmKardexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmKardexActionPerformed
         frmKardex ventana = new frmKardex();
-        if(!Util.getInstance().isJInternalFrameOpen(ventana, dskContenedor)) {
+        if (!Util.getInstance().isJInternalFrameOpen(ventana, dskContenedor)) {
             dskContenedor.add(ventana);
-            ventana.setVisible(true); 
+            ventana.setVisible(true);
         }
     }//GEN-LAST:event_sbmKardexActionPerformed
+
+    private void sbmDocSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbmDocSalidaActionPerformed
+        frmFicha ventana = new frmFicha("S");
+        if (!Util.getInstance().isJInternalFrameOpen(ventana, dskContenedor)) {
+            dskContenedor.add(ventana);
+            ventana.setVisible(true);
+        }
+    }//GEN-LAST:event_sbmDocSalidaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

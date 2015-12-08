@@ -14,7 +14,8 @@ import java.util.List;
  * @author JOSEPH
  */
 public class TipoFichaBL {
-        public static TipoFichaBL instance = null;
+
+    private static TipoFichaBL instance = null;
 
     private TipoFichaBL() {
     }

@@ -50,6 +50,12 @@ public class Ficha {
         this.lstDetalleFicha = lstDetalleFicha;
     }
 
+    public Ficha(int idFicha, Proveedor objProveedor){
+        this.idFicha = idFicha;
+        this.objProveedor = objProveedor;
+    }
+    
+    
     public int getIdFicha() {
         return idFicha;
     }

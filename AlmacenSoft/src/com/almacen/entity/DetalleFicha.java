@@ -27,6 +27,7 @@ public class DetalleFicha {
         this.cantidad = cantidad;
         this.precio = precio;
     }
+    
 
     public int getIdDetalleFicha() {
         return idDetalleFicha;
